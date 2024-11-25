@@ -1,4 +1,4 @@
-package org.example;
+package org.helperCook;
 
 public abstract class TimeUnit implements Nameable
 {
