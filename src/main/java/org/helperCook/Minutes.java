@@ -1,4 +1,4 @@
-package org.example;
+package org.helperCook;
 
 public class Minutes extends TimeUnit
 {

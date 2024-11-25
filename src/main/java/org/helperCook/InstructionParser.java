@@ -1,4 +1,4 @@
-package org.example;
+package org.helperCook;
 
 public interface InstructionParser
 {
