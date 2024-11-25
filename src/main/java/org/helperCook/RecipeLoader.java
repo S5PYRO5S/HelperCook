@@ -7,35 +7,25 @@ import java.util.ArrayList;
 
 public class RecipeLoader
 {
-    private final String[] instructionArray;
-    private final Recipe.RecipeBuilder recipeBuilder;
     private final List<InstructionParser> parsers;
 
-    public RecipeLoader(File recipeFile) throws IOException
-    {
-        this.recipeBuilder = new Recipe.RecipeBuilder();
-        this.recipeBuilder.setName(recipeFile.getName().replaceAll(RegexConstants.NAME_REGEX, "$1"));
-        String rawFileContent = FileReaderUtil.readFileContent(recipeFile);
-        this.instructionArray = rawFileContent.split("\\n\\s+\\n");
-        this.parsers = initializeParser();
-    }
+    public RecipeLoader() {this.parsers = initializeParser();}
 
-    public RecipeLoader(String recipeFilePath) throws IOException
+    public Recipe loadRecipe(File recipeFile) throws IOException
     {
-        this(new File(recipeFilePath));
-    }
+        Recipe.RecipeBuilder recipeBuilder = new Recipe.RecipeBuilder();
+        recipeBuilder.setName(recipeFile.getName().replaceAll(RegexConstants.NAME_REGEX, "$1"));
+        String[] instructionArray = FileReaderUtil.readFileContent(recipeFile).split("\\n\\s+\\n");
 
-    public Recipe loadRecipe()
-    {
         for(String instruction : instructionArray)
         {
-            Step step = parseStep(instruction);
+            Step step = parseStep(instruction, recipeBuilder);
             recipeBuilder.addStep(step);
         }
         return recipeBuilder.build();
     }
 
-    private Step parseStep(String instruction)
+    private Step parseStep(String instruction, Recipe.RecipeBuilder recipeBuilder)
     {
         Step.StepBuilder stepBuilder = new Step.StepBuilder().setInstruction(instruction);
         for(InstructionParser parser : parsers)
