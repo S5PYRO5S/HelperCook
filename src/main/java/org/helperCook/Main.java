@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InvalidCommandLineArgumentException {
 
 
 
@@ -38,17 +38,9 @@ public class Main {
 
             scanner.nextLine();
         }
-        ArgumentChecker checkArguments = new ArgumentChecker( args, "-list"); // check to
-        if (checkArguments.checkList()) {
-            System.out.println("Shopping list: ");
-
-        } else {
-            try {
-                throw new InvalidCommandLineArgumentException("Invalid command line argument");
-            } catch (InvalidCommandLineArgumentException e) {
-
-            }
-
+        ArgumentChecker checkArguments = new ArgumentChecker( args, "-list");
+        if (args.length == 0) {
+            throw new InvalidCommandLineArgumentException("No command line argument(s)");
         }
 
     }
