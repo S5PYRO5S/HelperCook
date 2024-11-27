@@ -65,7 +65,7 @@ public class Recipe
         // Print total durations
         System.out.println("Total Duration:");
         Duration totalDuration = Duration.sumOfDurationList(this.getTotalDuration());
-        System.out.println("- " + totalDuration.getMinutes());
+        System.out.println(totalDuration.getUnitName());
         System.out.println();
 
         // Print step-by-step details
@@ -92,7 +92,7 @@ public class Recipe
 
             // Print duration for this step
             if (step.getDuration() != null) {
-                System.out.println("  Duration: " + step.getDuration().getMinutes());
+                System.out.println("  Duration: " + step.getDuration().getUnitName());
             } else {
                 System.out.println("  Duration: 0 minutes (default)");
             }

@@ -15,7 +15,7 @@ public class RecipeLoader
     {
         Recipe.RecipeBuilder recipeBuilder = new Recipe.RecipeBuilder();
         recipeBuilder.setName(recipeFile.getName().replaceAll(RegexConstants.NAME_REGEX, "$1"));
-        String[] instructionArray = FileReaderUtil.readFileContent(recipeFile).split("\\n\\s+\\n");
+        String[] instructionArray = FileReaderUtil.readFileContent((recipeFile));
 
         for(String instruction : instructionArray)
         {
