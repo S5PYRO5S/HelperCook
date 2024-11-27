@@ -1,15 +1,7 @@
 package org.helperCook;
 
 public class ArgumentChecker {
-    private final String[] args;
-    private final String cmpString;
-
-    public ArgumentChecker(String[] args, String value) {
-        this.args = args;
-        cmpString = value;
-    }
-
-    public int checkList() { // check to see if the argument is equal to the cmpString
+    public static int checkList(String[] args, String cmpString) { // check to see if the argument is equal to the cmpString
         boolean foundFlag = false; // flag to check if the argument is in the array only once
         int position = -1; // position of the argument in the array
         for (int i = 0; i < args.length; i++) {
