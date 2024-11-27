@@ -3,16 +3,25 @@ package org.helperCook;
 public class ArgumentChecker {
     private final String[] args;
     private final String cmpString;
+
     public ArgumentChecker(String[] args, String value) {
         this.args = args;
-        cmpString= value;
+        cmpString = value;
     }
-    public int checkList(){ // check to see if the argument is equal to the cmpString
-        for (int i=0; i<args.length; i++) {
+
+    public int checkList() { // check to see if the argument is equal to the cmpString
+        boolean foundFlag = false; // flag to check if the argument is in the array only once
+        int position = -1; // position of the argument in the array
+        for (int i = 0; i < args.length; i++) {
             if ( args[i].equals( cmpString ) ) {
-                return i; // returns the index of the argument in the array
+                System.out.println("Found at " + i);
+                if (foundFlag) {
+                    return -1; // returns -1 if the argument is in the array more than once
+                }
+                foundFlag = true;
+                position = i;
             }
         }
-        return -1; // returns -1 if the argument is not in the array
+        return position; // returns -1 if the argument is not in the array
     }
 }

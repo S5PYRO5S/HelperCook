@@ -1,33 +1,23 @@
 package org.helperCook;
 
-import java.io.File;
+import gr.hua.dit.oop2.countdown.Countdown;
+import gr.hua.dit.oop2.countdown.CountdownFactory;
+import gr.hua.dit.oop2.countdown.CountdownImpl;
 import java.io.IOException;
-import java.util.List;
-import java.util.Scanner;
+
 
 public class Main
 {
     public static void main(String[] args) throws IOException, InvalidCommandLineArgumentException
     {
-        /*al */
-//        RecipeLoader loader = new RecipeLoader();
-//        File recipeFile = new File("Recipe1.txt");
-//        Recipe recipe = loader.loadRecipe(recipeFile);
-//        recipe.printRecipe();
+        TestArguments.main(args);
+//        Countdown countdown = CountdownFactory.countdown("Countdown1",10);
+//        System.out.println("it is;");
+//        System.out.println(countdown.secondsRemaining());
+//        System.out.println( countdown instanceof CountdownImpl);
+//        countdown.start();
+//        System.out.println(countdown.secondsRemaining());
 
-        /*spy*/
-//        File recipe = new File (args[0]);
-//        System.out.println("1");
-//        for (Step step : steps) {
-//            System.out.println(step.getInstruction()+ "\n");
-//            Scanner scanner = new Scanner(System.in);
-//
-//            scanner.nextLine();
-//        }
-        ArgumentChecker checkArguments = new ArgumentChecker( args, "-list");
-        if (args.length == 0) {
-            throw new InvalidCommandLineArgumentException("No command line argument(s)");
-        }
 
     }
 }
