@@ -75,7 +75,6 @@
     </build>
 
 
-
     <dependencies>
         <dependency>
             <groupId>gr.hua.dit.oop2</groupId>
