@@ -1,9 +1,10 @@
 package org.helperCook;
 
-public class Minutes extends TimeUnit
+public class Minutes implements TimeUnit
 {
-    @Override public double toSeconds(double value) {return value * 60;}
-    @Override public double toMinutes(double value) {return value;}
-    @Override public double toHours(double value) {return value / 60.0;}
-    @Override public String getName(){return "minutes";}
+    @Override
+    public int toSeconds(double value) {return (int) (value * 60);}
+
+    @Override
+    public String format(int count) {return count + " minute" + (count > 1 ? "s" : "");}
 }

@@ -2,14 +2,14 @@ package org.helperCook;
 
 public class TimeUnitFactory
 {
-    public TimeUnit create(String unit)
+    public static TimeUnit create(String unit)
     {
-        switch (unit.toLowerCase())
+        return switch (unit.toLowerCase())
         {
-            case "seconds" -> {return new Seconds();}
-            case "minutes" -> {return new Minutes();}
-            case "hours" -> {return new Hours();}
-            default -> {return null;}
-        }
+            case "seconds" -> new Seconds();
+            case "minutes" -> new Minutes();
+            case "hours" -> new Hours();
+            default -> throw new IllegalArgumentException("Invalid unit: " + unit);
+        };
     }
 }

@@ -15,7 +15,8 @@ public class RecipeLoader
     {
         Recipe.RecipeBuilder recipeBuilder = new Recipe.RecipeBuilder();
         recipeBuilder.setName(recipeFile.getName().replaceAll(RegexConstants.NAME_REGEX, "$1"));
-        String[] instructionArray = FileReaderUtil.readFileContent((recipeFile));
+
+        String[] instructionArray = FileReaderUtil.readFileContent((recipeFile));   //may throw exception
 
         for(String instruction : instructionArray)
         {
@@ -23,6 +24,20 @@ public class RecipeLoader
             recipeBuilder.addStep(step);
         }
         return recipeBuilder.build();
+    }
+
+    public List<Recipe> loadRecipes(List<File> recipeFiles)
+    {
+        List<Recipe> recipes = new ArrayList<>();
+        for(File file : recipeFiles)
+        {
+            try
+            {
+                recipes.add(loadRecipe(file));
+            }
+            catch (IOException ignored) {}
+        }
+        return recipes;
     }
 
     private Step parseStep(String instruction, Recipe.RecipeBuilder recipeBuilder)
