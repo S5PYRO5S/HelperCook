@@ -1,6 +1,6 @@
 package org.helperCook;
 
-public class ArgumentChecker {
+public class ListChecker {
     public static int checkList(String[] args, String cmpString) { // check to see if the argument is equal to the cmpString
 
         int position = -1; // position of the argument in the array
