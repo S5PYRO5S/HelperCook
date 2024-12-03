@@ -7,6 +7,7 @@ import static org.helperCook.ColorConstants.ANSI_RESET;
 
 
 public class TestArguments {
+
     public static void main(String[] args) throws InvalidCommandLineArgumentException {
 
         switch (args.length) {
