@@ -17,7 +17,8 @@ public class Main
         List<Recipe> recipes = loader.loadRecipes(recipeFiles);
 
         for(Recipe r : recipes) r.printRecipe();
-    public static void main(String[] args) throws IOException {
+
+
         System.setOut(new PrintStream(System.out, true, StandardCharsets.UTF_8));
         File[] files;
         try {
