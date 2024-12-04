@@ -1,20 +1,35 @@
 package org.helperCook;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.nio.file.Files;
+import java.util.*;
 
 public class ShoppingList {
-    public static void PrintShoppingList(File[] args) {
+    private Map<Ingredient, Double> totalIngredients = new HashMap<>();
+    private List<Recipe> totalRecipes;
 
-        for ( File file : args) {
-            List<Ingredient> ingredientList = new LinkedList<>();
-            List<Cookware> cookwareList = new LinkedList<>();
-            List<Duration> durationList = new LinkedList<>();
-            List<Step> stepList = new LinkedList<>();
-            RecipeLoader recipeLoader = new RecipeLoader();
-
+    public ShoppingList(List<Recipe> totalRecipes) {
+        this.totalRecipes = totalRecipes;
+    }
+    private void addIngredient(Map<Ingredient, Double> ingredients){
+        for ( Map.Entry<Ingredient, Double> ingredient : ingredients.entrySet() ){
+            totalIngredients.merge(ingredient.getKey(), ingredient.getValue(), Double::sum);
         }
+    }
+    public void generateShoppingList(){
+        for (Recipe recipe : totalRecipes){
+            addIngredient(recipe.getTotalIngredients());
+        }
+    }
+    public void PrintShoppingList() throws InterruptedException {
+        System.out.println("Shopping List:");
+        Thread.sleep(1000);
+        for (Map.Entry<Ingredient, Double> ingredient : totalIngredients.entrySet()) {
+            System.out.println(ingredient.getValue() + " " + ingredient.getKey().getName());
+            Thread.sleep(500);
+        }
+
+
+
     }
 }
