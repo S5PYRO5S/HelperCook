@@ -1,12 +1,11 @@
 package org.helperCook;
 
-import java.io.File;
-import java.nio.file.Files;
+
 import java.util.*;
 
 public class ShoppingList {
     private Map<Ingredient, Double> totalIngredients = new HashMap<>();
-    private List<Recipe> totalRecipes;
+    private final List<Recipe> totalRecipes;
 
     public ShoppingList(List<Recipe> totalRecipes) {
         this.totalRecipes = totalRecipes;
