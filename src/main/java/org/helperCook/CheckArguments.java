@@ -9,44 +9,58 @@ import static org.helperCook.ColorConstants.ANSI_RESET;
 
 
 public class CheckArguments {
-    public static List<File> Check(String[] args) throws InvalidCommandLineArgumentException {
-        List<File> fileList = new ArrayList<>();
+    private String mode;
+    private final List<File> fileList = new ArrayList<>();
+
+    public List<File> Check(String[] args) throws InvalidCommandLineArgumentException {
+
         switch (args.length) {
 
             case 0 -> throw new InvalidCommandLineArgumentException(
-                                ANSI_RED + "No command line arguments" + ANSI_RESET );
+                    ANSI_RED + "No command line arguments" + ANSI_RESET );
 
             case 1 -> {
                 Argument arg = new Argument( args[0] );
                 File file = arg.isValidCookFile();
                 fileList.add( file );
+                mode = "recipe";
                 return fileList;
             }
             case 2 -> {
-                Argument arg = new Argument( args[0] );
-                File file = arg.isValidCookFile();
-                try{
+                if ( args[0].equals( "-list" ) ) {
+                    Argument arg = new Argument( args[1] );
+                    File file = arg.isValidCookFile();
+                    fileList.add( file );
+                    mode = "list";
+                    return fileList;
+                } // if not -list, then check if it is a single recipe
+                try {
                     Integer.parseInt( args[1] );
                 } catch (NumberFormatException e) {
                     throw new InvalidCommandLineArgumentException(
                             ANSI_RED + "Invalid command line arguments" + ANSI_RESET );
                 }
+                Argument arg = new Argument( args[0] );
+                File file = arg.isValidCookFile();
                 fileList.add( file );
+                mode = "recipe";
                 return fileList;
             }
 
             default -> {
-                int argPos = ListChecker.checkList( args, "-list" );
-                if ( argPos == -1 )
+                if ( !args[0].equals( "-list" ) ) // if not -list, then invalid
                     throw new InvalidCommandLineArgumentException( ANSI_RED + "Invalid command line arguments" + ANSI_RESET );
-                for (int i = 0; i < args.length; i++) {
-                    if ( i == argPos ) continue; // skip the argument that was checked
+                for ( int i = 1; i < args.length; i++ ) {
                     Argument arg = new Argument( args[i] );
                     fileList.add( arg.isValidCookFile() );
-
                 }
+                mode = "list";
                 return fileList;
             }
         }
+    }
+
+    public String getMode() {
+        return mode;
     }
 }

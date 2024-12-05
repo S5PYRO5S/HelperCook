@@ -1,10 +1,8 @@
 package org.helperCook;
 
 import java.io.File;
-import java.nio.file.InvalidPathException;
 
-import static org.helperCook.ColorConstants.ANSI_RED;
-import static org.helperCook.ColorConstants.ANSI_RESET;
+import static org.helperCook.ColorConstants.*;
 import static org.helperCook.RegexConstants.FILE_REGEX;
 
 public class Argument {
@@ -31,4 +29,5 @@ public class Argument {
         return file;
 
     }
+
 }
