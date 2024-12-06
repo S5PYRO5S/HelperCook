@@ -15,8 +15,6 @@ public class CookwareParser implements InstructionParser
             if(cookwareMatcher.group(1) != null) cookwareName = cookwareMatcher.group(1);
             else if(cookwareMatcher.group(2) != null) cookwareName = cookwareMatcher.group(2);
 
-            //System.out.println(cookwareName);
-
             Cookware cookware = new Cookware(cookwareName);
             stepBuilder.addCookware(cookware);
             recipeBuilder.addCookware(cookware);

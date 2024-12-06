@@ -26,27 +26,17 @@ public class RecipeLoader
         return recipeBuilder.build();
     }
 
-    public List<Recipe> loadRecipes(List<File> recipeFiles)
+    public List<Recipe> loadRecipes(List<File> recipeFiles) throws IOException
     {
         List<Recipe> recipes = new ArrayList<>();
-        for(File file : recipeFiles)
-        {
-            try
-            {
-                recipes.add(loadRecipe(file));
-            }
-            catch (IOException ignored) {}
-        }
+        for(File file : recipeFiles) recipes.add(loadRecipe(file));
         return recipes;
     }
 
     private Step parseStep(String instruction, Recipe.RecipeBuilder recipeBuilder)
     {
         Step.StepBuilder stepBuilder = new Step.StepBuilder().setInstruction(instruction);
-        for(InstructionParser parser : parsers)
-        {
-            parser.parse(instruction, stepBuilder, recipeBuilder);
-        }
+        for(InstructionParser parser : parsers) parser.parse(instruction, stepBuilder, recipeBuilder);
         return stepBuilder.build();
     }
 

@@ -9,22 +9,18 @@ public class IngredientParser implements InstructionParser
     @Override
     public void parse(String instruction, Step.StepBuilder stepBuilder, Recipe.RecipeBuilder recipeBuilder)
     {
-        //String regex = "@([^\\s{}~@#]+(?:\\s+[^\\s{}~@#]+)*(?=\\s*\\{[^~@#]*})|[^\\s{}~@#]+)";
-        //String regex = "@([^\\s{}~@#]+(?:\\s+[^\\s{}~@#]+)*(?=\\s*\\{[^~@#]*})|[^\\s{}~@#]+)(?:\\{(\\d+)%([^}]+)})?";
-        //String regex = "@([^\\s{}~@#]+(?:\\s+[^\\s{}~@#]+)*(?=\\s*\\{[^~@#]*})|[^\\s{}~@#]+)(?:\\{(\\d+)(?:%([^}]+))?})?";
         Matcher ingredientMatcher = Pattern.compile(RegexConstants.INGREDIENT_REGEX).matcher(instruction);
         while (ingredientMatcher.find())
         {
             String ingredientName = ingredientMatcher.group(1);
+
             double quantity = ingredientMatcher.group(2) != null ? Double.parseDouble(ingredientMatcher.group(2)) : 1;
-            String unit = ingredientMatcher.group(3) != null ? ingredientMatcher.group(3) : "";
+            String unitName = ingredientMatcher.group(3) != null ? ingredientMatcher.group(3) : "";
+            UnitImpl unit = (UnitImpl) UnitFactory.create(quantity, unitName);
 
-            //System.out.println(quantity + " " + unit + " " + ingredientName);
-
-            Ingredient ingredient = new Ingredient(ingredientName, unit);
-            stepBuilder.addIngredient(ingredient, quantity);
-            recipeBuilder.addIngredient(ingredient, quantity);
-            //System.out.println(ingredientName);
+            Ingredient ingredient = new Ingredient(ingredientName);
+            stepBuilder.addIngredient(ingredient, unit);
+            recipeBuilder.addIngredient(ingredient, unit);
         }
     }
 }
