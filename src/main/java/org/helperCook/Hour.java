@@ -9,7 +9,11 @@ public class Hour implements UnitConverter
     public double fromBase(double value) {return value / 3600;}
 
     @Override
-    public String format(double value) {return value + " hour" + (value > 1 ? "s" : "");}
+    public String format(double value)
+    {
+        if (value == (int) value) return (int) value + " hour" + (value != 1 ? "s" : "");
+        else return value + " hour" + (value > 1 ? "s" : "");
+    }
 
     @Override
     public UnitType getUnitType() {return UnitType.TIME;}

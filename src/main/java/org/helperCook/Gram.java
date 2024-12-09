@@ -9,7 +9,10 @@ public class Gram implements UnitConverter
     public double fromBase(double value) {return value;}
 
     @Override
-    public String format(double value) {return value + " g";}
+    public String format(double value)
+    {
+        return (value % 1 == 0 ? String.format("%.0f g", value) : value + " g");
+    }
 
     @Override
     public UnitType getUnitType() {return UnitType.MASS;}

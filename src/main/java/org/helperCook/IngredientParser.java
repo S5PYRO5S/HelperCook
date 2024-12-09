@@ -16,7 +16,9 @@ public class IngredientParser implements InstructionParser
 
             double quantity = ingredientMatcher.group(2) != null ? Double.parseDouble(ingredientMatcher.group(2)) : 1;
             String unitName = ingredientMatcher.group(3) != null ? ingredientMatcher.group(3) : "";
-            UnitImpl unit = (UnitImpl) UnitFactory.create(quantity, unitName);
+            Unit unit = UnitFactory.create(quantity, unitName);
+
+            System.out.println(ingredientName + unitName + unit.toString() +" "+ unit.getUnitType()); //debug
 
             Ingredient ingredient = new Ingredient(ingredientName);
             stepBuilder.addIngredient(ingredient, unit);

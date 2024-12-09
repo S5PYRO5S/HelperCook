@@ -20,6 +20,10 @@ public class Main
         Recipe recipe1 = loader.loadRecipe(recipeFile1);
         Recipe recipe2 = loader.loadRecipe(recipeFile2);
         recipe2.printRecipe();
+//        Recipe recipe1 = loader.loadRecipe(recipeFile1);
+//        recipe1.printRecipe();
+//        Recipe recipe2 = loader.loadRecipe(recipeFile2);
+//        recipe2.printRecipe();
 
         List<File> files = null;
         try {
@@ -35,19 +39,16 @@ public class Main
                             or
                             java -jar helperCook.jar -list <file> <file> ...  # Use relative or absolute paths for files
                     """ + ANSI_RESET );
+        Unit unit1 = UnitFactory.create(2, "kg"); // 2 kg
+        Unit unit2 = UnitFactory.create(100, "gr"); // 100 g
 
-            System.exit( 1 );
-        }
-        List<Recipe> recipeList= loader.loadRecipes(files);
-        ShoppingList shoppingList = new ShoppingList(recipeList);
+        Unit combined = unit1.add(unit2); // Result in kg (calling unit)
+        Unit combined2 = unit2.add(unit1); // Result in g (calling unit)
 
-    }
-    public void PrintShoppingList(ShoppingList shoppingList) {
-        System.out.println( ANSI_PURPLE + "Shopping List:" );
-        String format = "%-" + ( shoppingList.getMaxIngredientLength() + 6) + "s %10.2f";
-        for ( Map.Entry<Ingredient, Double> ingredient : shoppingList.getTotalShoppingListIngredients().entrySet()) {
-            System.out.println( ANSI_BLUE + String.format( format, ingredient.getKey().getName()
-                    + ANSI_CYAN, ingredient.getValue() ) + ANSI_RESET );
-        }
+        System.out.println(combined.toString());
+        System.out.println(combined2.toString());
+
+        //Duration dur4 = dur1.add(dur2).add(dur3);
+        // System.out.println(dur4.toString());
     }
 }
