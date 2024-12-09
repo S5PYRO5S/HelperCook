@@ -28,6 +28,63 @@ public class Recipe
     public List<Step> getSteps() {return steps;}
     public Duration getTotalDuration() {return totalDuration;}
 
+    public static class RecipeBuilder
+    {
+        String name;
+        Map<Ingredient, Unit> ingredients = new HashMap<>();
+        List<Cookware> cookwareSet = new ArrayList<>();
+        List<Step> steps = new ArrayList<>();
+        Duration totalDuration;
+
+        public Recipe build()
+        {
+            return new Recipe(this);
+        }
+
+        public RecipeBuilder setName(String name)
+        {
+            this.name = name;
+            return this;
+        }
+
+        public RecipeBuilder addIngredient(Ingredient ingredient, Unit unit)
+        {
+            this.ingredients.merge(ingredient, unit, (existingUnit, newUnit) ->
+            {
+                // Ensure both units belong to the same UnitType
+                if (!existingUnit.getUnitType().equals(newUnit.getUnitType()))
+                {
+                    throw new IllegalArgumentException(String.format(
+                            "Cannot merge units of different types: %s (%s) and %s (%s)",
+                            existingUnit.format(), existingUnit.getUnitType(),
+                            newUnit.format(), newUnit.getUnitType()
+                    ));
+                }
+                return existingUnit.add(newUnit); // Safe to merge
+            });
+            return this;
+        }
+
+        public RecipeBuilder addCookware(Cookware cookware)
+        {
+            cookwareSet.add(cookware);
+            return this;
+        }
+
+        public RecipeBuilder addStep(Step step)
+        {
+            steps.add(step);
+            return this;
+        }
+
+        public RecipeBuilder addDuration(Duration duration)
+        {
+            if(this.totalDuration == null) this.totalDuration = duration;   //if the duration object isn't initialized
+            else this.totalDuration = this.totalDuration.add(duration);     //if duration already exists
+            return this;
+        }
+    }
+
     public void printRecipe()
     {
         // Print recipe name
@@ -90,95 +147,6 @@ public class Recipe
             System.out.println();
 
             stepCounter++;
-        }
-    }
-
-
-//    public void printIngredients()
-//    {
-//        System.out.println("Ingredients:");
-//        for (Map.Entry<Ingredient, Double> entry : totalIngredients.entrySet()) {
-//            Ingredient ingredient = entry.getKey();
-//            double quantityInBase = entry.getValue();
-//
-//            if (ingredient.getUnit() != null) {
-//                // Convert quantity back to the most appropriate unit and format it
-//                String formattedQuantity = ingredient.getUnit().format((int) quantityInBase);
-//                System.out.println("- " + ingredient.getName() + ": " + formattedQuantity);
-//            } else {
-//                // Handle ingredients without a predefined unit
-//                System.out.println("- " + ingredient.getName() + ": " + quantityInBase + " " + ingredient.getUnitName());
-//            }
-//        }
-//    }
-
-    public static class RecipeBuilder
-    {
-        String name;
-        Map<Ingredient, Unit> ingredients = new HashMap<>();
-        List<Cookware> cookwareSet = new ArrayList<>();
-        List<Step> steps = new ArrayList<>();
-        Duration totalDuration;
-
-        public Recipe build()
-        {
-            return new Recipe(this);
-        }
-
-        public RecipeBuilder setName(String name)
-        {
-            this.name = name;
-            return this;
-        }
-
-//        public RecipeBuilder addIngredient(Ingredient ingredient, double quantity)
-//        {
-////            //update ingredient quantity if it already exists
-////            ingredients.merge(ingredient, quantity, Double::sum);
-////            return this;
-//            // Convert the incoming quantity to the base unit
-//
-//
-//            return this;
-//        }
-
-        public RecipeBuilder addIngredient(Ingredient ingredient, Unit unit)
-        {
-            // Merge the ingredient and unit into the map
-            this.ingredients.merge(ingredient, unit, (existingUnit, newUnit) ->
-            {
-                // Check if both the existing unit and the new unit are of the same UnitType
-                if (existingUnit.getUnitType().equals(newUnit.getUnitType()))
-                {
-                    // Try to merge them by adding their base values
-                    Unit mergedUnit = existingUnit.add(newUnit);
-                    // If merging is successful (i.e., not null), return the merged unit
-                    return mergedUnit != null ? mergedUnit : existingUnit;
-                }
-                // If they are not the same UnitType, return the existing unit as is
-                return existingUnit;
-            });
-            return this;
-        }
-
-
-        public RecipeBuilder addCookware(Cookware cookware)
-        {
-            cookwareSet.add(cookware);
-            return this;
-        }
-
-        public RecipeBuilder addStep(Step step)
-        {
-            steps.add(step);
-            return this;
-        }
-
-        public RecipeBuilder addDuration(Duration duration)
-        {
-            if(this.totalDuration == null) this.totalDuration = duration;   //if the duration object isn't initialized
-            else this.totalDuration = this.totalDuration.add(duration);     //if duration already exists
-            return this;
         }
     }
 }

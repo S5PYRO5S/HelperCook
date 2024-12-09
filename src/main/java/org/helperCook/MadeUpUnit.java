@@ -13,7 +13,11 @@ public class MadeUpUnit implements UnitConverter
     public double fromBase(double value) {return value;}
 
     @Override
-    public String format(double value) {return value + " " + unitName;}
+    public String format(double value)
+    {
+        if (value == (int) value) return (int) value +" "+ unitName;
+        return value + " " + unitName;
+    }
 
     @Override
     public UnitType getUnitType() {return UnitType.MADE_UP;}

@@ -9,7 +9,11 @@ public class Second implements UnitConverter
     public double fromBase(double value) {return value;}
 
     @Override
-    public String format(double value) {return value + " second" + (value > 1 ? "s" : "");}
+    public String format(double value)
+    {
+        if (value == (int) value) return (int) value + " second" + (value != 1 ? "s" : "");
+        else return value + " second" + (value > 1 ? "s" : "");
+    }
 
     @Override
     public UnitType getUnitType() {return UnitType.TIME;}
