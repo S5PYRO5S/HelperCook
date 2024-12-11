@@ -15,7 +15,6 @@ public class Main
         try {
             CheckArguments checkArguments = new CheckArguments();
             files = checkArguments.Check( args );
-            System.out.println( checkArguments.getMode() );
         } catch (Exception e) {
             //throw new RuntimeException( e );
             System.err.println( ANSI_RED + "Error: " + e.getMessage() + ANSI_RESET );
