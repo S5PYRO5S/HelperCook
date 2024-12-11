@@ -14,15 +14,15 @@ public class ShoppingList {
         this.totalRecipes = totalRecipes;
         this.generateShoppingList();
     }
-    private void addIngredient(Map<Ingredient, Double> ingredients){
-        for ( Map.Entry<Ingredient, Double> ingredient : ingredients.entrySet() ){
-            totalIngredients.merge(ingredient.getKey(), ingredient.getValue(), Double::sum);
+    private void addIngredient(Map<Ingredient, Unit> ingredients){
+        for ( Map.Entry<Ingredient, Unit> ingredient : ingredients.entrySet() ){
+            totalIngredients.merge(ingredient.getKey(), ingredient.getValue().toBase(), Double::sum);
             maxIngredientLength = Math.max(maxIngredientLength, ingredient.getKey().getName().length());
         }
     }
     private void generateShoppingList(){
         for (Recipe recipe : totalRecipes){
-            addIngredient(recipe.getTotalIngredients());
+            addIngredient(recipe.getTotalIngredientsAndUnit());
         }
     }
     public  Map<Ingredient, Double> getTotalShoppingListIngredients(){

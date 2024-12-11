@@ -12,9 +12,9 @@ public class RecipeDisplay {
     public void displayTotalIngredients(Recipe recipe) {
         System.out.println("Υλικά:");
 
-        for (Map.Entry<Ingredient, Double> ingredientEntry : recipe.getTotalIngredients().entrySet()) {
-            System.out.println(ingredientEntry.getKey().getName() + " " + ingredientEntry.getValue() + ingredientEntry.getKey().getUnit());
-        }
+//        for (Map.Entry<Ingredient, Double> ingredientEntry : recipe.getTotalIngredients().entrySet()) {
+//            System.out.println(ingredientEntry.getKey().getName() + " " + ingredientEntry.getValue() + ingredientEntry.getKey().getUnit());
+//        }
     }
 
     //Print total cookware
@@ -30,9 +30,9 @@ public class RecipeDisplay {
     public void displayTotalDuration(Recipe recipe) {
         System.out.println("Συνολική ώρα:");
 
-        for (Duration duration : recipe.getTotalDuration()) {
-            System.out.println(duration.toString());
-        }
+//        for (Duration duration : recipe.getTotalDuration()) {
+//            System.out.println(duration.toString());
+//        }
     }
 
     //Print steps
