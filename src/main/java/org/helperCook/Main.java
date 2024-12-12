@@ -36,6 +36,7 @@ public class Main
                             or
                             java -jar helperCook.jar -list <file> <file> ...  # Use relative or absolute paths for files
                     """ + ANSI_RESET );
+            System.exit( 1 );
         }
         RecipeLoader recipeLoader = new RecipeLoader();
         System.out.println( "Shopping List:" );
