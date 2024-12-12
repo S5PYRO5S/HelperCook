@@ -1,4 +1,16 @@
 package org.helperCook;
+/*
+ * Project "helperCook" _ 1st assignement for the course Object Oriented Programming 2
+ * Made by : it2023003, it20230100, it20230XX
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
 
 import java.io.File;
 import java.io.IOException;

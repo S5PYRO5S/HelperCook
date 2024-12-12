@@ -27,7 +27,6 @@ public class Argument {
             throw new InvalidCommandLineArgumentException( ANSI_RED + "Invalid file name: " + arg + ANSI_RESET );
         }
         return file;
-
     }
 
 }
