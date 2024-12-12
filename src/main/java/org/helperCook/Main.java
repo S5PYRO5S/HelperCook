@@ -1,6 +1,6 @@
 package org.helperCook;
 /*
- * Project "helperCook" _ 1st assignement for the course Object Oriented Programming 2
+ * Project "helperCook" - 1st assignment for the course Object-Oriented Programming 2
  * Made by : it2023003, it20230100, it20230XX
  *
  *
