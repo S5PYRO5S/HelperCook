@@ -44,7 +44,7 @@ mvn -v
 
 
 
-- **Example:** `java -jar target/helperCook1.0.jar  pancakes.cook 2` 
+- **Example:** `java -jar target/helperCook1.0.jar pancakes.cook 2` 
 
 ### To display shopping list, run the following
 - `java -jar target/helperCook1.0.jar -list <path-to-input-file-1> <path-to-input-file-2> ...]`
