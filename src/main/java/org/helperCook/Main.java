@@ -37,17 +37,8 @@ public class Main
                     """ + ANSI_RESET );
             System.exit( 1 );
         }
-        RecipeLoader recipeLoader = new RecipeLoader();
-        System.out.println( "Shopping List:" );
 
-        ShoppingList shoppingList = new ShoppingList( recipeLoader.loadRecipes( files ) );
-        printShoppingList( shoppingList );
 
-    }
-    //TODO
-    public static void printShoppingList(ShoppingList shoppingList) {
-        for (Ingredient ingredient : shoppingList.getTotalShoppingListIngredients().keySet()) {
-            System.out.println( ingredient.getName() + " ".repeat( shoppingList.getMaxIngredientLength() - ingredient.getName().length() ) + " : " + shoppingList.getTotalShoppingListIngredients().get( ingredient ) );
-        }
+
     }
 }
