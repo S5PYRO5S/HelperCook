@@ -11,15 +11,15 @@ public class DisplayUtils {
     public DisplayUtils() {
     }
 
+
     //Print total ingredients
-    public void displayTotalIngredients(Recipe recipe) {
+    public void displayTotalIngredients(Recipe recipe , int factor) {
         System.out.println(ColorConstants.ANSI_PURPLE +"Υλικά:" + ColorConstants.ANSI_RESET);
 
         for (Map.Entry<Ingredient, Unit> ingredientEntry : recipe.getTotalIngredientsAndUnit().entrySet()) {
-            System.out.println(ingredientEntry.getKey().getName() + " " + ingredientEntry.getValue());
+            System.out.println(ingredientEntry.getKey().getName() + " " + ingredientEntry.getValue().multiplyByFactor(factor));
         }
     }
-
     //Print total cookware
     public void displayTotalCookware(Recipe recipe) {
         System.out.println("Σκεύη:");
@@ -47,8 +47,8 @@ public class DisplayUtils {
 
 
     //Print full recipe
-    public void displayFullRecipe(Recipe recipe) {
-        this.displayTotalIngredients(recipe);
+    public void displayFullRecipe(Recipe recipe , int factor) {
+        this.displayTotalIngredients(recipe, factor);
         System.out.println();
         this.displayTotalCookware(recipe);
         System.out.println();

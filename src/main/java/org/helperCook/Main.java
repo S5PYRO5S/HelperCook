@@ -25,10 +25,12 @@ public class Main
 
         List<File> files = null;
         String mode = "";
+        int factor = 1;
         try {
             CheckArguments checkArguments = new CheckArguments();
             files = checkArguments.Check( args );
             mode = checkArguments.getMode();
+            factor = checkArguments.getServings();
         } catch (Exception e) {
             //throw new RuntimeException( e ); //TODO remove
             System.err.println( ANSI_RED + "Error: " + e.getMessage() + ANSI_RESET );
@@ -37,7 +39,7 @@ public class Main
         }
         RecipeLoader recipeLoader = new RecipeLoader();
         RecipeCLI recipeCLI = new RecipeCLI();
-        recipeCLI.runCLI(mode, files);
+        recipeCLI.runCLI(mode, files, factor);
 
 
 
