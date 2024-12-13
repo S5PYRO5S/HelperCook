@@ -11,6 +11,7 @@ import static org.helperCook.ColorConstants.ANSI_RESET;
 public class CheckArguments {
     private String mode;
     private final List<File> fileList = new ArrayList<>();
+    private int servings=1;
 
     public List<File> Check(String[] args) throws InvalidCommandLineArgumentException {
 
@@ -33,9 +34,9 @@ public class CheckArguments {
                     fileList.add( file );
                     mode = "list";
                     return fileList;
-                } // if not -list, then check if it is a single recipe
+                } // if not -list, then check if it is a single recipe and has # servings
                 try {
-                    Integer.parseInt( args[1] );
+                    servings = Integer.parseInt( args[1] );
                 } catch (NumberFormatException e) {
                     throw new InvalidCommandLineArgumentException(
                             ANSI_RED + "Invalid command line arguments" + ANSI_RESET );
@@ -48,7 +49,7 @@ public class CheckArguments {
             }
 
             default -> {
-                if ( !args[0].equals( "-list" ) ) // if not -list, then invalid
+                if ( !args[0].equals( "-list" ) ) // if not -list as first argument, then invalid
                     throw new InvalidCommandLineArgumentException( ANSI_RED + "Invalid command line arguments" + ANSI_RESET );
                 for ( int i = 1; i < args.length; i++ ) {
                     Argument arg = new Argument( args[i] );
@@ -62,5 +63,8 @@ public class CheckArguments {
 
     public String getMode() {
         return mode;
+    }
+    public int getServings() {
+        return servings;
     }
 }
