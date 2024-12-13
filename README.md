@@ -1,11 +1,24 @@
 # HelperCook
 
+### Simple command-line java application that does the following:
+- reads a recipe file and displays the recipe with the ingredients adjusted for the number of servings specified. 
+- displays a shopping list for multiple recipes.
+
+The application is the  for the course "Object-Oriented Programming 2" at the Harokoopio University of Athens.
+### Team Members:
+| Ονοματεπώνυμο         | Email                    |
+|-----------------------|--------------------------|
+| Αρβανίτης Σπυρίδων    | it2023003@hua.gr         |
+| Πολίτης Αλέξιος       | it2023100@hua.gr         |
+| Ξηρομερίτης Δημήτριος | it2023052@hua.gr         |
+
+
 To use the app, you need to install the following dependencies:
 - ***Java*** (version 21 or later)
 - ***Apache Maven*** (version 3.8 or later)
 
 ### Install Java
-- Download Java from the [official Oracle website](https://www.oracle.com/java/technologies/javase-downloads.html) or [AdoptOpenJDK](https://adoptopenjdk.net/).
+- Download Java from the [official Oracle website](https://www.oracle.com/java/technologies/javase-downloads.html).
 - Follow the installation instructions for your operating system.
 
 ### Install Maven
@@ -25,14 +38,17 @@ mvn -v
 - Open the terminal and navigate to the project directory (where the `pom.xml` file is located)
 - Run the following command: `mvn package`
 
-### To display a single recipe, run the following
-- Run the following command: `java -jar target/helperCook1.0.jar <path-to-input-file> [number of servings]`
+### To display a single recipe, run the following command:
+- `java -jar target/helperCook1.0.jar <path-to-input-file> [number of servings]`
 
 
-- Example: `java -jar target/helperCook1.0.jar path/to/input.cook 2` 
+
+- **Example:** `java -jar target/helperCook1.0.jar  pancakes.cook 2` 
 
 ### To display shopping list, run the following
 - `java -jar target/helperCook1.0.jar -list <path-to-input-file-1> <path-to-input-file-2> ...]`
-- Example: `java -jar target/helperCook1.0.jar -list path/to/input1.cook path/to/input2.cook`
+
+
+- **Example**: `java -jar target/helperCook1.0.jar -list pancakes.cook brownies.cook`
 
 #### If you wish to run the app from a different directory, you can specify the absolute path to the jar file and the input file(s) .

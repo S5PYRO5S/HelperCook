@@ -30,7 +30,6 @@ public class Main
             files = checkArguments.Check( args );
             mode = checkArguments.getMode();
         } catch (Exception e) {
-            //throw new RuntimeException( e ); //TODO remove
             System.err.println( ANSI_RED + "Error: " + e.getMessage() + ANSI_RESET );
             DisplayUtils.printUsage();
             System.exit( 1 );
