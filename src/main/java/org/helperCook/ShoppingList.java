@@ -5,7 +5,7 @@ import java.util.*;
 
 
 public class ShoppingList {
-    private final Map<Ingredient, Double> totalIngredients = new HashMap<>();
+    private final Map<Ingredient, Unit> totalIngredients = new HashMap<>();
     private final List<Recipe> totalRecipes;
     private int maxIngredientLength = 0;
 
@@ -14,22 +14,29 @@ public class ShoppingList {
         this.totalRecipes = totalRecipes;
         this.generateShoppingList();
     }
-    private void addIngredient(Map<Ingredient, Unit> ingredients){
-        for ( Map.Entry<Ingredient, Unit> ingredient : ingredients.entrySet() ){
-            totalIngredients.merge(ingredient.getKey(), ingredient.getValue().toBase(), Double::sum);
-            maxIngredientLength = Math.max(maxIngredientLength, ingredient.getKey().getName().length());
-        }
+    private void addIngredient(Ingredient ingredient, Unit unit){
+        this.totalIngredients.merge(ingredient, unit, (existingUnit, newUnit) -> {
+            // Check if the unit types are different
+            if (!existingUnit.getUnitType().equals(newUnit.getUnitType())) {
+                // Simply replace the existing unit with the new unit (or handle as per requirement)
+                return newUnit;
+            }
+            // If unit types are the same, merge them
+            return existingUnit.add(newUnit);
+        });
+            maxIngredientLength = Math.max(maxIngredientLength, ingredient.getName().length());
     }
     private void generateShoppingList(){
         for (Recipe recipe : totalRecipes){
-            addIngredient(recipe.getTotalIngredientsAndUnit());
+            for (Map.Entry<Ingredient, Unit> entry : recipe.getTotalIngredientsAndUnit().entrySet()) {
+                addIngredient( entry.getKey(), entry.getValue() );
+            }
         }
     }
-    public  Map<Ingredient, Double> getTotalShoppingListIngredients(){
+    public  Map<Ingredient, Unit> getTotalShoppingListIngredients(){
         return totalIngredients;
     }
     public int getMaxIngredientLength(){
         return maxIngredientLength;
     }
-
 }

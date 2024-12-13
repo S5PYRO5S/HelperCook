@@ -28,7 +28,7 @@ public class Main
             CheckArguments checkArguments = new CheckArguments();
             files = checkArguments.Check( args );
         } catch (Exception e) {
-            //throw new RuntimeException( e );
+            //throw new RuntimeException( e ); //TODO remove
             System.err.println( ANSI_RED + "Error: " + e.getMessage() + ANSI_RESET );
             System.out.println( ANSI_YELLOW + """ 
                         Usage:
@@ -42,9 +42,13 @@ public class Main
         System.out.println( "Shopping List:" );
 
         ShoppingList shoppingList = new ShoppingList( recipeLoader.loadRecipes( files ) );
-        for (var entry : shoppingList.getTotalShoppingListIngredients().entrySet()) {
-            System.out.println( entry.getKey().getName() + " " + entry.getValue() );
-        }
+        printShoppingList( shoppingList );
 
+    }
+    //TODO
+    public static void printShoppingList(ShoppingList shoppingList) {
+        for (Ingredient ingredient : shoppingList.getTotalShoppingListIngredients().keySet()) {
+            System.out.println( ingredient.getName() + " ".repeat( shoppingList.getMaxIngredientLength() - ingredient.getName().length() ) + " : " + shoppingList.getTotalShoppingListIngredients().get( ingredient ) );
+        }
     }
 }

@@ -18,8 +18,6 @@ public class IngredientParser implements InstructionParser
             String unitName = ingredientMatcher.group(3) != null ? ingredientMatcher.group(3) : "";
             Unit unit = UnitFactory.create(quantity, unitName);
 
-            System.out.println(ingredientName + unitName + unit.toString() +" "+ unit.getUnitType()); //debug
-
             Ingredient ingredient = new Ingredient(ingredientName);
             stepBuilder.addIngredient(ingredient, unit);
             recipeBuilder.addIngredient(ingredient, unit);

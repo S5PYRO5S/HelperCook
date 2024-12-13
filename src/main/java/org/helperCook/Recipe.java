@@ -54,11 +54,11 @@ public class Recipe
                 // Ensure both units belong to the same UnitType
                 if (!existingUnit.getUnitType().equals(newUnit.getUnitType()))
                 {
-                    throw new IllegalArgumentException(String.format(
-                            "Cannot merge units of different types: %s (%s) and %s (%s)",
-                            existingUnit.format(), existingUnit.getUnitType(),
-                            newUnit.format(), newUnit.getUnitType()
-                    ));
+//                    throw new IllegalArgumentException(String.format(
+//                            "Cannot merge units of different types: %s (%s) and %s (%s)",
+//                            existingUnit.format(), existingUnit.getUnitType(),
+//                            newUnit.format(), newUnit.getUnitType()
+//                    ));
                 }
                 return existingUnit.add(newUnit); // Safe to merge
             });
