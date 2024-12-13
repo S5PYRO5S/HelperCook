@@ -1,7 +1,7 @@
 package org.helperCook;
 /*
  * Project "helperCook" - 1st assignment for the course Object-Oriented Programming 2
- * Made by : it2023003, it20230100, it20230XX
+ * Made by : it2023003, it2023052, it2023100
  *
  *
  *
@@ -24,31 +24,24 @@ public class Main
     public static void main(String[] args) throws IOException {
 
         List<File> files = null;
+        String mode = "";
         try {
             CheckArguments checkArguments = new CheckArguments();
             files = checkArguments.Check( args );
+            mode = checkArguments.getMode();
         } catch (Exception e) {
             //throw new RuntimeException( e ); //TODO remove
             System.err.println( ANSI_RED + "Error: " + e.getMessage() + ANSI_RESET );
-            System.out.println( ANSI_YELLOW + """ 
-                        Usage:
-                            java -jar helperCook.jar <file> [integer]    # Use relative or absolute paths for files
-                            or
-                            java -jar helperCook.jar -list <file> <file> ...  # Use relative or absolute paths for files
-                    """ + ANSI_RESET );
+            DisplayUtils.printUsage();
             System.exit( 1 );
         }
         RecipeLoader recipeLoader = new RecipeLoader();
-        System.out.println( "Shopping List:" );
+        RecipeCLI recipeCLI = new RecipeCLI();
+        recipeCLI.runCLI(mode, files);
 
-        ShoppingList shoppingList = new ShoppingList( recipeLoader.loadRecipes( files ) );
-        printShoppingList( shoppingList );
+
+
 
     }
-    //TODO
-    public static void printShoppingList(ShoppingList shoppingList) {
-        for (Ingredient ingredient : shoppingList.getTotalShoppingListIngredients().keySet()) {
-            System.out.println( ingredient.getName() + " ".repeat( shoppingList.getMaxIngredientLength() - ingredient.getName().length() ) + " : " + shoppingList.getTotalShoppingListIngredients().get( ingredient ) );
-        }
-    }
+
 }
