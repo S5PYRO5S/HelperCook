@@ -37,7 +37,7 @@ mvn -v
 2. Open the terminal and navigate to the project directory (where the `pom.xml` file is located)
 3. Run the following command: `mvn package`
 
-The jar file will be created in the `target` directory of the project folder.
+#### The jar file will be created in the `target` directory of the project folder. After the jar file is created, you can run the app using the following commands.
 
 ## To display a single recipe, run the following command:
 - `java -jar target/helperCook1.0.jar <path-to-input-file> [number of servings]`
