@@ -13,16 +13,16 @@ public class DisplayUtils {
 
 
     //Print total ingredients
-    public void displayTotalIngredients(Recipe recipe , int factor) {
-        System.out.println(ColorConstants.ANSI_PURPLE +"Υλικά:" + ColorConstants.ANSI_RESET);
+    public void displayTotalIngredients(Recipe recipe) {
+        System.out.println(ColorConstants.ANSI_PURPLE + "Υλικά:" + ColorConstants.ANSI_RESET);
 
         for (Map.Entry<Ingredient, Unit> ingredientEntry : recipe.getTotalIngredientsAndUnit().entrySet()) {
-            System.out.println(ingredientEntry.getKey().getName() + " " + ingredientEntry.getValue().multiplyByFactor(factor));
+            System.out.println(ingredientEntry.getKey().getName() + " " + ingredientEntry.getValue());
         }
     }
     //Print total cookware
     public void displayTotalCookware(Recipe recipe) {
-        System.out.println("Σκεύη:");
+        System.out.println(ColorConstants.ANSI_PURPLE + "Σκεύη:" + ColorConstants.ANSI_RESET);
 
         for (Cookware cookware : recipe.getTotalCookware()) {
             System.out.println(cookware.getName());
@@ -31,13 +31,13 @@ public class DisplayUtils {
 
     //Print total time needed
     public void displayTotalDuration(Recipe recipe) {
-        System.out.println("Συνολική ώρα:\n" + recipe.getTotalDuration());
+        System.out.println(ColorConstants.ANSI_PURPLE + "Συνολική ώρα:\n" + ColorConstants.ANSI_RESET + recipe.getTotalDuration());
     }
 
     //Print steps
     public void displaySteps(Recipe recipe) {
         int i = 1;
-        System.out.println("Βήματα:");
+        System.out.println(ColorConstants.ANSI_PURPLE + "Βήματα:" + ColorConstants.ANSI_RESET);
 
         for (Step step : recipe.getSteps()) {
             System.out.println(i + ". " + step.getInstruction() + "\n");
@@ -47,8 +47,8 @@ public class DisplayUtils {
 
 
     //Print full recipe
-    public void displayFullRecipe(Recipe recipe , int factor) {
-        this.displayTotalIngredients(recipe, factor);
+    public void displayFullRecipe(Recipe recipe) {
+        this.displayTotalIngredients(recipe);
         System.out.println();
         this.displayTotalCookware(recipe);
         System.out.println();

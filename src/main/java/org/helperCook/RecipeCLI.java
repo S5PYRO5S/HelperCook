@@ -18,8 +18,8 @@ public class RecipeCLI {
 
         switch (mode) {
             case "recipe":
-                recipe = recipeLoader.loadRecipe(files.getFirst());
-                recipeDisplay.displayFullRecipe(recipe, factor);
+                recipe = recipeLoader.loadRecipe(files.getFirst(), factor);
+                recipeDisplay.displayFullRecipe(recipe);
                 break;
             case "list":
                 ShoppingList shoppingList = new ShoppingList( recipeLoader.loadRecipes( files ));
