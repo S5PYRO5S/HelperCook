@@ -36,12 +36,8 @@ public class Main
             DisplayUtils.printUsage();
             System.exit( 1 );
         }
-        RecipeLoader recipeLoader = new RecipeLoader();
         RecipeCLI recipeCLI = new RecipeCLI();
         recipeCLI.runCLI(mode, files, factor);
-
-
-
 
     }
 
