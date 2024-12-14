@@ -10,12 +10,13 @@ public class RecipeCLI {
     public RecipeCLI() {
     }
 
+    //CLI
     public void runCLI(String mode, List<File> files, int factor) throws IOException {
         RecipeLoader recipeLoader = new RecipeLoader();
         DisplayUtils recipeDisplay = new DisplayUtils();
         Recipe recipe;
 
-
+        //Check which mode user inputs, then run it
         switch (mode) {
             case "recipe":
                 recipe = recipeLoader.loadRecipe(files.getFirst(), factor);

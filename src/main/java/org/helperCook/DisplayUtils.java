@@ -57,6 +57,7 @@ public class DisplayUtils {
         this.displaySteps(recipe);
     }
 
+    //Print Shopping List
     public void printShoppingList(ShoppingList shoppingList) {
         System.out.println(ColorConstants.ANSI_CYAN + "Λίστα Αγορών:" + ColorConstants.ANSI_RESET);
         for (Ingredient ingredient : shoppingList.getTotalShoppingListIngredients().keySet()) {
@@ -64,6 +65,7 @@ public class DisplayUtils {
         }
     }
 
+    //Print Usage format
     public static void printUsage() {
         System.out.println( ANSI_YELLOW + """ 
                         Usage:
