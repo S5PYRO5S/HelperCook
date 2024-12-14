@@ -16,21 +16,6 @@ To use the app, you need to install the following dependencies:
 - ***Java*** (version 21 or later)
 - ***Apache Maven*** (version 3.8 or later)
 
-### Install Java
-- Download Java from the [official Oracle website](https://www.oracle.com/java/technologies/javase-downloads.html).
-- Follow the installation instructions for your operating system.
-
-### Install Maven
-- Download Maven from the [official Maven website](https://maven.apache.org/download.cgi).
-- Follow the [installation guide](https://maven.apache.org/install.html).
-
-### Verify Installation
-Run the following commands to verify the installations:
-```bash
-java -version
-mvn -v
-```
-
 ## When running the app for the first time
 ### To create the jar file:
 1. Unzip the project folder 
