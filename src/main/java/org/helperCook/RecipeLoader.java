@@ -11,12 +11,13 @@ public class RecipeLoader
 
     public RecipeLoader() {this.parsers = initializeParser();}
 
-    public Recipe loadRecipe(File recipeFile) throws IOException
+    public Recipe loadRecipe(File recipeFile, int factor) throws IOException
     {
         Recipe.RecipeBuilder recipeBuilder = new Recipe.RecipeBuilder();
         recipeBuilder.setName(recipeFile.getName().replaceAll(RegexConstants.NAME_REGEX, "$1"));
 
         String[] instructionArray = FileReaderUtil.readFileContent((recipeFile));   //may throw exception
+        FileReaderUtil.updateInstructionQuantities(instructionArray, factor);
 
         for(String instruction : instructionArray)
         {
@@ -29,7 +30,7 @@ public class RecipeLoader
     public List<Recipe> loadRecipes(List<File> recipeFiles) throws IOException
     {
         List<Recipe> recipes = new ArrayList<>();
-        for(File file : recipeFiles) recipes.add(loadRecipe(file));
+        for(File file : recipeFiles) recipes.add(loadRecipe(file, 1));
         return recipes;
     }
 

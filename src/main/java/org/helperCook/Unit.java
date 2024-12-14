@@ -48,4 +48,11 @@ public class Unit
         }
 
     }
+
+    public Unit multiplyByFactor(int factor)
+    {
+        factor = Math.abs(factor);
+        double newValue = this.value * factor;
+        return new Unit(newValue, converter);
+    }
 }

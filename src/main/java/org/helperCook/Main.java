@@ -25,21 +25,19 @@ public class Main
 
         List<File> files = null;
         String mode = "";
+        int factor = 1;
         try {
             CheckArguments checkArguments = new CheckArguments();
             files = checkArguments.Check( args );
             mode = checkArguments.getMode();
+            factor = checkArguments.getServings();
         } catch (Exception e) {
             System.err.println( ANSI_RED + "Error: " + e.getMessage() + ANSI_RESET );
             DisplayUtils.printUsage();
             System.exit( 1 );
         }
-        RecipeLoader recipeLoader = new RecipeLoader();
         RecipeCLI recipeCLI = new RecipeCLI();
-        recipeCLI.runCLI(mode, files);
-
-
-
+        recipeCLI.runCLI(mode, files, factor);
 
     }
 

@@ -10,13 +10,15 @@ public class RecipeCLI {
     public RecipeCLI() {
     }
 
-    public void runCLI(String mode, List<File> files) throws IOException {
+    public void runCLI(String mode, List<File> files, int factor) throws IOException {
         RecipeLoader recipeLoader = new RecipeLoader();
         DisplayUtils recipeDisplay = new DisplayUtils();
         Recipe recipe;
+
+
         switch (mode) {
             case "recipe":
-                recipe = recipeLoader.loadRecipe(files.getFirst());
+                recipe = recipeLoader.loadRecipe(files.getFirst(), factor);
                 recipeDisplay.displayFullRecipe(recipe);
                 break;
             case "list":

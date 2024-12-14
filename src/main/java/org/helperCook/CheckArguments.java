@@ -39,10 +39,10 @@ public class CheckArguments {
                     servings = Integer.parseInt( args[1] );
                     if (servings < 1)
                         throw new InvalidCommandLineArgumentException(
-                            ANSI_RED + "Invalid command line arguments" + ANSI_RESET );
+                                ANSI_RED + "Invalid number of servings: Servings must be a positive integer." + ANSI_RESET );
                 } catch (NumberFormatException e) {
                     throw new InvalidCommandLineArgumentException(
-                            ANSI_RED + "Invalid command line arguments" + ANSI_RESET );
+                            ANSI_RED + "Invalid number of servings: Servings must be an integer." + ANSI_RESET );
                 }
                 Argument arg = new Argument( args[0] );
                 File file = arg.isValidCookFile();
