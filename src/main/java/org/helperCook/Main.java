@@ -41,7 +41,7 @@ public class Main
             mode = checkArguments.getMode();
             factor = checkArguments.getServings();
         } catch (Exception e) {
-            System.err.println( ANSI_RED + "Error: " + e.getMessage() + ANSI_RESET );
+            System.out.println( ANSI_RED + "Error: " + e.getMessage() + ANSI_RESET );
             DisplayUtils.printUsage();
             System.exit( 1 );
         }

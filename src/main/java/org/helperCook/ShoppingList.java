@@ -14,7 +14,7 @@ public class ShoppingList {
         this.totalRecipes = totalRecipes;
         this.generateShoppingList();
     }
-    private void addIngredient(Ingredient ingredient, Unit unit){
+    private void addIngredient(Ingredient ingredient, Unit unit){ // add a single ingredient to the shopping list
         this.totalIngredients.merge(ingredient, unit, (existingUnit, newUnit) -> {
             // Check if the unit types are different
             if (!existingUnit.getUnitType().equals(newUnit.getUnitType())) {
@@ -26,17 +26,17 @@ public class ShoppingList {
         });
             maxIngredientLength = Math.max(maxIngredientLength, ingredient.getName().length());
     }
-    private void generateShoppingList(){
+    private void generateShoppingList(){ // add multiple ingredients to the shopping list
         for (Recipe recipe : totalRecipes){
             for (Map.Entry<Ingredient, Unit> entry : recipe.getTotalIngredientsAndUnit().entrySet()) {
                 addIngredient( entry.getKey(), entry.getValue() );
             }
         }
     }
-    public  Map<Ingredient, Unit> getTotalShoppingListIngredients(){
+    public  Map<Ingredient, Unit> getTotalShoppingListIngredients(){ // return the total ingredients in the shopping list
         return totalIngredients;
     }
-    public int getMaxIngredientLength(){
+    public int getMaxIngredientLength(){ // return the maximum length of the ingredient name ( for formatting purposes)
         return maxIngredientLength;
     }
 }

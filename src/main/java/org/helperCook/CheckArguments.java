@@ -51,7 +51,7 @@ public class CheckArguments {
                 mode = "list";
             }
         }
-        return fileList;
+        return fileList; // return the list of recipe files
     }
     private void makeFile (String arg) throws InvalidCommandLineArgumentException { // Check if the argument is a valid file and add it to the list
         Argument argument = new Argument( arg );
