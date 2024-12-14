@@ -1,6 +1,5 @@
-package org.helperCook;
 /*
- * Project "helperCook" - 1st assignment for the course Object-Oriented Programming 2
+ * Project "helperCook" - 1st part of the project assignment for the course Object-Oriented "Programming 2"
  * Made by : it2023003, it2023052, it2023100
  *
  *
@@ -10,7 +9,17 @@ package org.helperCook;
  *
  *
  *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  */
+
+package org.helperCook;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,7 +37,7 @@ public class Main
         int factor = 1;
         try {
             CheckArguments checkArguments = new CheckArguments();
-            files = checkArguments.Check( args );
+            files = checkArguments.check( args );
             mode = checkArguments.getMode();
             factor = checkArguments.getServings();
         } catch (Exception e) {
