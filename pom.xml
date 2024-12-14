@@ -68,7 +68,6 @@
     </build>
 
     <dependencies>
-        <!-- Example dependency -->
         <dependency>
             <groupId>gr.hua.dit.oop2</groupId>
             <artifactId>countdown</artifactId>
@@ -77,7 +76,6 @@
     </dependencies>
 
     <repositories>
-        <!-- Custom repository -->
         <repository>
             <id>gitlab-maven</id>
             <url>https://gitlab.com/api/v4/projects/41008035/packages/maven</url>
