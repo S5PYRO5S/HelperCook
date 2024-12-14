@@ -37,6 +37,9 @@ public class CheckArguments {
                 } // if not -list, then check if it is a single recipe and has # servings
                 try {
                     servings = Integer.parseInt( args[1] );
+                    if (servings < 1)
+                        throw new InvalidCommandLineArgumentException(
+                            ANSI_RED + "Invalid command line arguments" + ANSI_RESET );
                 } catch (NumberFormatException e) {
                     throw new InvalidCommandLineArgumentException(
                             ANSI_RED + "Invalid command line arguments" + ANSI_RESET );
