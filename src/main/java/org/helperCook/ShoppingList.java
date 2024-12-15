@@ -5,12 +5,13 @@ import java.util.*;
 
 
 public class ShoppingList {
-    private final Map<Ingredient, Unit> totalIngredients = new HashMap<>();
+    private final Map<Ingredient, Unit> totalIngredients = new HashMap<>(); // total ingredients in the shopping list
     private final List<Recipe> totalRecipes;
-    private int maxIngredientLength = 0;
+    private int maxIngredientLength = 0; // maximum length of the ingredient name ( for formatting purposes)
 
     public ShoppingList(List<Recipe> totalRecipes) {
         // it is not possible for the list to be null
+        // so no need for null check
         this.totalRecipes = totalRecipes;
         this.generateShoppingList();
     }
@@ -33,10 +34,10 @@ public class ShoppingList {
             }
         }
     }
-    public  Map<Ingredient, Unit> getTotalShoppingListIngredients(){ // return the total ingredients in the shopping list
+    public  Map<Ingredient, Unit> getTotalShoppingListIngredients(){
         return totalIngredients;
     }
-    public int getMaxIngredientLength(){ // return the maximum length of the ingredient name ( for formatting purposes)
+    public int getMaxIngredientLength(){
         return maxIngredientLength;
     }
 }

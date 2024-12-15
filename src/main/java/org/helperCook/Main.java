@@ -25,9 +25,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import static org.helperCook.ColorConstants.*;
-import static org.helperCook.ColorConstants.ANSI_RESET;
-
 public class Main
 {
     public static void main(String[] args) throws IOException {
@@ -41,7 +38,7 @@ public class Main
             mode = checkArguments.getMode();
             factor = checkArguments.getServings();
         } catch (Exception e) {
-            System.out.println( ANSI_RED + "Error: " + e.getMessage() + ANSI_RESET );
+            System.out.println( ColorConstants.ANSI_RED + "Error: " + e.getMessage() + ColorConstants.ANSI_RESET );
             DisplayUtils.printUsage();
             System.exit( 1 );
         }

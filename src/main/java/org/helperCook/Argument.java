@@ -6,7 +6,7 @@ import static org.helperCook.ColorConstants.ANSI_RED;
 import static org.helperCook.ColorConstants.ANSI_RESET;
 import static org.helperCook.RegexConstants.FILE_REGEX;
 
-public class Argument { // Class to check if the argument is a valid file and returns the file ( create a file object only once)
+public class Argument { // Class to check if the argument is a valid file and returns the file ( create a file object only once )
     private final String arg;
 
     public Argument(String arg) {
