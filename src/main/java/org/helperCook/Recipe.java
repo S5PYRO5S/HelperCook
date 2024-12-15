@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents a recipe that contains name, ingredients, cookware, steps and duration
+ * It uses the builder pattern to allow the dynamic construction of the Recipe object
+ */
 public class Recipe
 {
     private final String name;
@@ -28,6 +32,7 @@ public class Recipe
     public List<Step> getSteps() {return steps;}
     public Duration getTotalDuration() {return totalDuration;}
 
+    //uses method chaining for dynamic object construction (not necessary for the program)
     public static class RecipeBuilder
     {
         String name;
@@ -49,21 +54,31 @@ public class Recipe
 
         public RecipeBuilder addIngredient(Ingredient ingredient, Unit unit)
         {
-            this.ingredients.merge(ingredient, unit, (existingUnit, newUnit) ->
+            // Check if the ingredient is already in the map
+            if (this.ingredients.containsKey(ingredient))
             {
-                // Ensure both units belong to the same UnitType
-                if (!existingUnit.getUnitType().equals(newUnit.getUnitType()))
+                Unit existingUnit = this.ingredients.get(ingredient);
+
+                // Check if the unit types are different
+                if (!existingUnit.getUnitType().equals(unit.getUnitType()))
                 {
-//                    throw new IllegalArgumentException(String.format(
-//                            "Cannot merge units of different types: %s (%s) and %s (%s)",
-//                            existingUnit.format(), existingUnit.getUnitType(),
-//                            newUnit.format(), newUnit.getUnitType()
-//                    ));
+                    // Create a new Ingredient entry for the different unit type
+                    this.ingredients.put(ingredient, unit);
                 }
-                return existingUnit.add(newUnit); // Safe to merge
-            });
+                else
+                {
+                    // If unit types are the same, merge units
+                    this.ingredients.put(ingredient, existingUnit.add(unit));
+                }
+            }
+            else
+            {
+                // If the ingredient does not already exist, add it
+                this.ingredients.put(ingredient, unit);
+            }
             return this;
         }
+
 
         public RecipeBuilder addCookware(Cookware cookware)
         {
@@ -82,71 +97,6 @@ public class Recipe
             if(this.totalDuration == null) this.totalDuration = duration;   //if the duration object isn't initialized
             else this.totalDuration = this.totalDuration.add(duration);     //if duration already exists
             return this;
-        }
-    }
-
-    public void printRecipe()
-    {
-        // Print recipe name
-        System.out.println("Recipe: " + this.getName());
-        System.out.println("====================================");
-
-        // Print total ingredients
-        System.out.println("Ingredients:");
-        for (Ingredient ingredient : totalIngredientsAndUnit.keySet()) {
-            // Print ingredient name and its unit
-            Unit unit = totalIngredientsAndUnit.get(ingredient);
-            System.out.println("- " + ingredient.getName() + ": " + unit.format());
-        }
-        System.out.println();
-
-        // Print total cookware
-        System.out.println("Cookware:");
-        for (Cookware cookware : this.getTotalCookware()) {
-            System.out.println("- " + cookware.getName());
-        }
-        System.out.println();
-
-        // Print total durations
-        System.out.println("Total Duration:");
-        System.out.println(this.getTotalDuration().toString());
-        System.out.println();
-
-        // Print step-by-step details
-        System.out.println("Steps:");
-        int stepCounter = 1;
-        for (Step step : this.getSteps())
-        {
-            System.out.println("Step " + stepCounter + ":");
-            System.out.println("  Instruction: " + step.getInstruction());
-
-            // Print ingredients for this step
-            if (!step.getIngredients().isEmpty())
-            {
-                System.out.println("  Ingredients:");
-                step.getIngredients().forEach((ingredient, unit) ->
-                        System.out.println("    - " + ingredient.getName() + ": " + unit));
-            }
-
-            // Print cookware for this step
-            if (!step.getCookwares().isEmpty())
-            {
-                System.out.println("  Cookware:");
-                for (Cookware cookware : step.getCookwares()) {
-                    System.out.println("    - " + cookware.getName());
-                }
-            }
-
-            // Print duration for this step
-            if (step.getDuration() != null) {
-                System.out.println("  Duration: " + step.getDuration().toString());
-            } else {
-                System.out.println("  Duration: 0 minutes (default)");
-            }
-
-            System.out.println();
-
-            stepCounter++;
         }
     }
 }

@@ -1,5 +1,9 @@
 package org.helperCook;
 
+/**
+ * Implementations are used for converting values to and from a base of a unit
+ * e.g. toBase() from a TIME unitType returns the a value the represents seconds
+ */
 public interface UnitConverter
 {
     double toBase(double value);

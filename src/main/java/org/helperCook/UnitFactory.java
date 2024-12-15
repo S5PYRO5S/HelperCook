@@ -3,7 +3,13 @@ package org.helperCook;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UnitFactory {
+/**
+ * Factory class for creating instances of {@link Unit} with the right convertors.
+ * Contains a Map of unit names mapped to their {@link UnitConverter} objects
+ * if a string isn't registered to the map it defaults to {@link MadeUpUnit} as a convertor
+ */
+public class UnitFactory
+{
     private static final Map<String, UnitConverter> UNITS = new HashMap<>();
     static
     {

@@ -1,0 +1,5 @@
+org\helperCook\Argument.class
+org\helperCook\DisplayUtils.class
+org\helperCook\ShoppingList.class
+org\helperCook\RecipeCLI.class
+org\helperCook\CheckArguments.class

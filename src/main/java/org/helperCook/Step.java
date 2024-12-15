@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Same as the {@link Recipe} class but in scale of a single instruction
+ */
 public class Step
 {
     private final String instruction;
@@ -40,30 +43,33 @@ public class Step
             return this;
         }
 
-//        public StepBuilder addIngredient(Ingredient ingredient, UnitImpl quantity) {
-//            //update ingredient quantity if it already exists
-//            ingredients.merge(ingredient, quantity, Double::sum);
-//            return this;
-//        }
-
         public StepBuilder addIngredient(Ingredient ingredient, Unit unit)
         {
-            if (ingredientsAndUnit.containsKey(ingredient)) {
-                Unit existingUnit = ingredientsAndUnit.get(ingredient); // Get the existing unit for the ingredient
-                if (existingUnit != null) {
-                    Unit newUnit = existingUnit.add(unit); // Add the units together
-                    ingredientsAndUnit.put(ingredient, newUnit);
-                } else {
-                    // Handle case where the existing unit is null
-                    // You can throw an exception or handle the case differently depending on the logic
-                    System.err.println("Existing unit for ingredient " + ingredient.getName() + " is null.");
+            // Check if the ingredient already exists in the map
+            if (ingredientsAndUnit.containsKey(ingredient))
+            {
+                Unit existingUnit = ingredientsAndUnit.get(ingredient);
+
+                // Check if the unit types are different
+                if (!existingUnit.getUnitType().equals(unit.getUnitType()))
+                {
+                    // Create a new Ingredient entry for the different unit type
+                    ingredientsAndUnit.put(ingredient, unit);
                 }
-            } else {
-                // If it's not in the map, simply add it
+                else
+                {
+                    // If unit types are the same, merge units
+                    ingredientsAndUnit.put(ingredient, existingUnit.add(unit));
+                }
+            }
+            else
+            {
+                // If the ingredient is not in the map, add it
                 ingredientsAndUnit.put(ingredient, unit);
             }
             return this;
         }
+
 
         public StepBuilder addCookware(Cookware cookware)
         {
