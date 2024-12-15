@@ -4,7 +4,7 @@
 - reads a recipe file and displays the recipe with the ingredients adjusted for the number of servings specified. 
 - displays a shopping list for multiple recipes.
 
-The application is the project assignment for the course "Object-Oriented Programming 2" at the Harokoopio University of Athens.
+The application is the project assignment for the course "Object-Oriented Programming 2" at the Harokopio University of Athens.
 ### Team Members:
 | Ονοματεπώνυμο         | Email                    |
 |-----------------------|--------------------------|
