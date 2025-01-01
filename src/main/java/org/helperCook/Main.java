@@ -21,12 +21,13 @@
 
 package org.helperCook;
 
+import GUI.GUIMain;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public class Main
-{
+public class Main {
     public static void main(String[] args) throws IOException {
 
         List<File> files = null;
@@ -34,17 +35,21 @@ public class Main
         int factor = 1;
         try {
             CheckArguments checkArguments = new CheckArguments();
-            files = checkArguments.check( args );
+            files = checkArguments.check(args);
             mode = checkArguments.getMode();
             factor = checkArguments.getServings();
         } catch (Exception e) {
-            System.out.println( ColorConstants.ANSI_RED + "Error: " + e.getMessage() + ColorConstants.ANSI_RESET );
+            System.out.println(ColorConstants.ANSI_RED + "Error: " + e.getMessage() + ColorConstants.ANSI_RESET);
             DisplayUtils.printUsage();
-            System.exit( 1 );
+            System.exit(1);
         }
-        RecipeCLI recipeCLI = new RecipeCLI();
-        recipeCLI.runCLI(mode, files, factor);
-
+        System.out.println(args.length);
+        if (mode.equals("windows")) {
+            GUIMain.main(files);
+        } else {
+            RecipeCLI recipeCLI = new RecipeCLI();
+            recipeCLI.runCLI(mode, files, factor);
+        }
     }
 
 }
