@@ -45,11 +45,10 @@ public class Main {
         }
         System.out.println(args.length);
         if (mode.equals("windows")) {
-            GUIMain.main(files);
+            GUIMain.startGUI(files);
         } else {
             RecipeCLI recipeCLI = new RecipeCLI();
             recipeCLI.runCLI(mode, files, factor);
         }
     }
-
 }

@@ -80,7 +80,6 @@ public class CheckArguments {
                 mode = "windows";
             }
             default -> {
-                System.out.println("inside default");
                 if (args[args.length - 1].equalsIgnoreCase("-t")) { // check if -t exists and is the last argument
                     switch (args.length) {
                         case 2 -> {
@@ -114,7 +113,6 @@ public class CheckArguments {
                         }
                     }
                 } else {
-                    System.out.println("inside default56");
                     makeFiles(args);
                     mode = "windows";
                 }
