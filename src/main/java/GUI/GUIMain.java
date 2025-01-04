@@ -15,7 +15,7 @@ import java.util.List;
 
 public class GUIMain {
 
-    private int step = 0;
+    private int currentStep = 0;
     private JTextArea textArea;
     private List<Recipe> recipes;
     private List<Step> steps;
@@ -56,7 +56,7 @@ public class GUIMain {
 
         // Initialize the step label
         steps = recipes.getFirst().getSteps();
-        textArea = new JTextArea("Step " + (step + 1) + ".\n" + steps.get(step).getInstruction());
+        textArea = new JTextArea("Step " + (currentStep + 1) + ".\n" + steps.get(currentStep).getInstruction());
         textArea.setEditable(false);
         textArea.setBackground(Color.DARK_GRAY);
         textArea.setForeground(Color.WHITE);
@@ -86,14 +86,14 @@ public class GUIMain {
 
         // Action for Prev button
         prevButton.addActionListener(e -> {
-            step--; // Decrement step
+            currentStep--; // Decrement step
             updateStepLabel();
             updateButtonState(prevButton, nextButton, timerButton);
         });
 
         // Action for Next button
         nextButton.addActionListener(e -> {
-            step++; // Increment step
+            currentStep++; // Increment step
             updateStepLabel();
             updateButtonState(prevButton, nextButton, timerButton);
         });
@@ -105,41 +105,41 @@ public class GUIMain {
     private void updateButtonState(JButton prevButton, JButton nextButton, JButton timerButton) {
         // Use SwingUtilities to ensure UI updates happen on the EDT (Event Dispatch Thread)
         SwingUtilities.invokeLater(() -> {
-            // Enable Prev button otherwise
-            if (step==0){
-                prevButton.setBackground(new Color(0xd3d3d3));
-                prevButton.setForeground(new Color(0x8a8a8a));
-                prevButton.setEnabled(false);
-            } else {
-                prevButton.setBackground(new Color(0xF5F5DC));
-                prevButton.setForeground(new Color(0x333333));
-                prevButton.setEnabled(true);
-            }
-            if(step==steps.size()-1){
-                nextButton.setBackground(new Color(0xd3d3d3));
-                nextButton.setForeground(new Color(0x8a8a8a));
-                nextButton.setEnabled(false);
-            } else {
-                nextButton.setBackground(new Color(0xF5F5DC));
-                nextButton.setForeground(new Color(0x333333));
-                nextButton.setEnabled(true);
-            }
-            if (steps.get(step).getDuration() == null) {
-                timerButton.setBackground(new Color(0xe0e0e0));
-                timerButton.setForeground(new Color(0x333333));
-                timerButton.setEnabled(false);
-            } else {
-                timerButton.setEnabled(true);
-                timerButton.setBackground(new Color(0xff7f50));
-                timerButton.setForeground(new Color(0x333333));
-            }
+            updateTimerButtonState(timerButton);
+            updateStepButtonState(prevButton, currentStep ==0);
+            updateStepButtonState(nextButton, currentStep == steps.size() - 1);
         });
+    }
+    // step buttons
+    private void updateStepButtonState(JButton stepButton, boolean isDisabled) {
+        if (isDisabled) {
+
+            stepButton.setBackground(new Color(0xd3d3d3));
+            stepButton.setForeground(new Color(0x8a8a8a));
+            stepButton.setEnabled(false);
+        } else {
+            stepButton.setBackground(new Color(0xF5F5DC));
+            stepButton.setForeground(new Color(0x333333));
+            stepButton.setEnabled(true);
+        }
+    }
+    // timer button
+    private void updateTimerButtonState(JButton timerButton) {
+        if (steps.get(currentStep).getDuration() == null) { // if the current step doesn't have duration disable the button
+            timerButton.setBackground(new Color(0xe0e0e0));
+            timerButton.setForeground(new Color(0x333333));
+            timerButton.setEnabled(false);
+        } else {
+            timerButton.setEnabled(true);
+            timerButton.setBackground(new Color(0xff7f50));
+            timerButton.setForeground(new Color(0x333333));
+        }
     }
 
     // Method to update the step label
     private void updateStepLabel() {
         // Use SwingUtilities to ensure UI updates happen on the EDT (Event Dispatch Thread)
-        SwingUtilities.invokeLater(() -> textArea.setText("Step " + (step + 1) + ".\n" + steps.get(step).getInstruction()));
+        SwingUtilities.invokeLater(() -> textArea.setText("Step " + (currentStep + 1) + ".\n" + steps.get(currentStep).getInstruction()));
     }
 
     private JButton createButton(String label, String toolTip) {
@@ -170,7 +170,5 @@ public class GUIMain {
             this.revalidate();
             this.repaint();
         }
-
-
     }
 }
