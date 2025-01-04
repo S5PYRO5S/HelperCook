@@ -1,5 +1,5 @@
 /*
- * Project "helperCook" - 1st part of the project assignment for the course Object-Oriented "Programming 2"
+ * Project "helperCook" - final part of the project assignment for the course Object-Oriented "Programming 2"
  * Made by : it2023003, it2023052, it2023100
  *
  *
@@ -23,6 +23,7 @@ package org.helperCook;
 
 import GUI.GUIMain;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -43,9 +44,10 @@ public class Main {
             DisplayUtils.printUsage();
             System.exit(1);
         }
-        System.out.println(args.length);
         if (mode.equals("windows")) {
-            GUIMain.startGUI(files);
+            GUIMain windowsMain = new GUIMain(files);
+
+            windowsMain.startGUI();
         } else {
             RecipeCLI recipeCLI = new RecipeCLI();
             recipeCLI.runCLI(mode, files, factor);
