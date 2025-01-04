@@ -45,7 +45,8 @@ public class Main {
         }
         System.out.println(args.length);
         if (mode.equals("windows")) {
-            GUIMain.startGUI(files);
+//            GUIMain.startGUI(files);
+            GUIMain.startGUI();
         } else {
             RecipeCLI recipeCLI = new RecipeCLI();
             recipeCLI.runCLI(mode, files, factor);

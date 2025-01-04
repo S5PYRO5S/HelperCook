@@ -6,5 +6,4 @@ public class ColorConstants { // Class to store the ANSI color codes for the com
     public static final String ANSI_YELLOW = "\u001B[33m";
     public static final String ANSI_PURPLE = "\u001B[35m";
     public static final String ANSI_CYAN = "\u001B[36m";
-
 }
