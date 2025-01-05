@@ -20,6 +20,8 @@ public class GUIMain {
     private List<Recipe> recipes;
     private List<Step> steps;
 
+    private MainFrame frame;
+
     public GUIMain(List<File> files) {
         makeRecipes(files);
     }
@@ -35,7 +37,7 @@ public class GUIMain {
 
     public void startGUI() {
         // Create the frame
-        MainFrame frame = new MainFrame();
+        frame= new MainFrame();
 
         // Create buttons
         JButton prevButton = createButton("Prev Step", "Press this button to show the previous step");
@@ -73,6 +75,7 @@ public class GUIMain {
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, textPanel, buttonPanel);
         splitPane.setResizeWeight(1);
         splitPane.setDividerSize(0);  // not clickable divider
+        splitPane.setMinimumSize(new Dimension(500, 375));
         frame.setMinimumSize(new Dimension(500, 375));
         frame.addComp(splitPane);
 
@@ -80,8 +83,9 @@ public class GUIMain {
         timerButton.addActionListener(e -> {
             timerButton.setEnabled(false); // Disable the start button after it's clicked
             // visible cue that the button cannot be pressed
-            timerButton.setBackground(new Color(0xe0e0e0));
-            timerButton.setForeground(new Color(0x8a8a8a));
+            updateTimerButtonState(timerButton, true);
+            StepCountdown stepCountdown = new StepCountdown();
+            stepCountdown.startCountdown(steps.get(currentStep), currentStep, splitPane, timerButton, this);
         });
 
         // Action for Prev button
@@ -98,14 +102,13 @@ public class GUIMain {
             updateButtonState(prevButton, nextButton, timerButton);
         });
 
-
     }
 
     // Method to enable/disable buttons based on the current step
     private void updateButtonState(JButton prevButton, JButton nextButton, JButton timerButton) {
         // Use SwingUtilities to ensure UI updates happen on the EDT (Event Dispatch Thread)
         SwingUtilities.invokeLater(() -> {
-            updateTimerButtonState(timerButton);
+            updateTimerButtonState(timerButton,steps.get(currentStep).getDuration() == null);
             updateStepButtonState(prevButton, currentStep ==0);
             updateStepButtonState(nextButton, currentStep == steps.size() - 1);
         });
@@ -124,8 +127,8 @@ public class GUIMain {
         }
     }
     // timer button
-    private void updateTimerButtonState(JButton timerButton) {
-        if (steps.get(currentStep).getDuration() == null) { // if the current step doesn't have duration disable the button
+    private void updateTimerButtonState(JButton timerButton, boolean isDisabled) {
+        if (isDisabled) { // if the current step doesn't have duration disable the button
             timerButton.setBackground(new Color(0xe0e0e0));
             timerButton.setForeground(new Color(0x333333));
             timerButton.setEnabled(false);
@@ -165,10 +168,19 @@ public class GUIMain {
             this.setVisible(true);
         }
 
-        public void addComp(Component component) {
+        private void addComp(Component component) {
             super.add(component);
             this.revalidate();
             this.repaint();
         }
+        private JFrame getMainFrame() {
+            return this;
+        }
+
     }
+    JFrame getMainFrame() {
+        return this.frame;
+    }
+
+
 }
