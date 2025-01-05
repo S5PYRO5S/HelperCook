@@ -21,7 +21,7 @@
 
 package org.helperCook;
 
-import GUI.GUIMain;
+import GUI.RecipeStepsGUI;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class Main {
             System.exit(1);
         }
         if (mode.equals("windows")) {
-            GUIMain windowsMain = new GUIMain(files);
+            RecipeStepsGUI windowsMain = new RecipeStepsGUI(files);
 
             windowsMain.startGUI();
         } else {

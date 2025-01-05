@@ -13,7 +13,7 @@ import java.util.List;
 
 
 
-public class GUIMain {
+public class RecipeStepsGUI {
 
     private int currentStep = 0;
     private JTextArea textArea;
@@ -22,7 +22,7 @@ public class GUIMain {
 
     private MainFrame frame;
 
-    public GUIMain(List<File> files) {
+    public RecipeStepsGUI(List<File> files) {
         makeRecipes(files);
     }
 

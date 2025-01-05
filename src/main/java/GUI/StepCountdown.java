@@ -5,7 +5,6 @@ import gr.hua.dit.oop2.countdown.CountdownFactory;
 import gr.hua.dit.oop2.countdown.CountdownImpl;
 import gr.hua.dit.oop2.countdown.Notifier;
 
-import org.helperCook.Main;
 import org.helperCook.Step;
 
 import javax.swing.*;
@@ -19,7 +18,7 @@ public class StepCountdown {
     CountdownImpl countdown; // The Countdown from the library
     long lastUpdatedTime = -1; // Variable to store the last updated time
 
-    public void startCountdown(Step step, int stepNumber, JSplitPane panel, JButton timerButton, GUIMain guiMain) {
+    public void startCountdown(Step step, int stepNumber, JSplitPane panel, JButton timerButton, RecipeStepsGUI recipeStepsGui) {
 
         totalSeconds = step.getDuration().getTotalSeconds();
 
@@ -77,8 +76,8 @@ public class StepCountdown {
         finalWindow.setBackground(Color.BLACK);
         finalWindow.setForeground(new Color(0x282D34));
         finalWindow.setVisible(true);
-        guiMain.getMainFrame().add(finalWindow);
-        guiMain.getMainFrame().setVisible(true);
+        recipeStepsGui.getMainFrame().add(finalWindow);
+        recipeStepsGui.getMainFrame().setVisible(true);
 
 
         // Start the countdown (it already manages the Timer internally)
