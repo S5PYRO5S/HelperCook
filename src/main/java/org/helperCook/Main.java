@@ -23,6 +23,9 @@ package org.helperCook;
 
 import GUI.RecipeStepsGUI;
 import GUI.GUIMain;
+import GUI.RecipeTabs;
+
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -43,10 +46,11 @@ public class Main {
             DisplayUtils.printUsage();
             System.exit(1);
         }
-        System.out.println(args.length);
+        System.out.println(args.length); //TODO REMOVE
         if (mode.equals("windows")) {
 //            GUIMain.startGUI(files);
             GUIMain.startGUI();
+
         } else {
             RecipeCLI recipeCLI = new RecipeCLI();
             recipeCLI.runCLI(mode, files, factor);

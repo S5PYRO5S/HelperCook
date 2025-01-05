@@ -49,17 +49,8 @@ public class MainContentPanel extends JPanel
     {
         // Create the content panel for the file tab
         JPanel filePanel = new JPanel(new BorderLayout());
-        filePanel.add(new JLabel("File: " + file.getName()), BorderLayout.NORTH);  // Display file name
-
-        // Create two buttons inside the tab (TODO functionality for now)
-        JButton button1 = new JButton("Button 1 (TODO)");
-        JButton button2 = new JButton("Button 2 (TODO)");
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(button1);
-        buttonPanel.add(button2);
-
-        // Add the buttons to the file panel
-        filePanel.add(buttonPanel, BorderLayout.CENTER);
+        RecipeTabs recipeTabs = new RecipeTabs(file);
+        filePanel.add(recipeTabs.getTabbedPane());
 
         // Add close button functionality to the tab
         CloseButton closeButton = new CloseButton(tabbedPane, filePanel);

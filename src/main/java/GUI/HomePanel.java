@@ -12,5 +12,6 @@ public class HomePanel extends JPanel
         JLabel placeholderLabel = new JLabel("Home");
         placeholderLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(placeholderLabel);
+        // todo show shopping list with checkboxes
     }
 }
