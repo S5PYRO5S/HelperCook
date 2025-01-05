@@ -1,5 +1,5 @@
 /*
- * Project "helperCook" - 1st part of the project assignment for the course Object-Oriented "Programming 2"
+ * Project "helperCook" - final part of the project assignment for the course Object-Oriented "Programming 2"
  * Made by : it2023003, it2023052, it2023100
  *
  *
@@ -21,8 +21,8 @@
 
 package org.helperCook;
 
+import GUI.RecipeStepsGUI;
 import GUI.GUIMain;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;

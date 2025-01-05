@@ -143,7 +143,6 @@ public class CheckArguments {
             if (arg.equalsIgnoreCase("-list") || arg.equalsIgnoreCase("-t")) {
                 continue;
             }
-
             makeFile(arg);
         }
     }
