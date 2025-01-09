@@ -28,7 +28,7 @@ public class MainContentPanel extends JPanel
 
     private JPanel createTabWithCloseButton(JPanel contentPanel, String tabTitle)
     {
-        CloseButton closeButton = new CloseButton(tabbedPane, contentPanel, this);
+        CloseButton closeButton = new CloseButton(tabbedPane, contentPanel, this, tabTitle);
 
         JPanel tabTitlePanel = new JPanel(new BorderLayout());
         tabTitlePanel.add(new JLabel(tabTitle), BorderLayout.CENTER);
@@ -71,6 +71,7 @@ public class MainContentPanel extends JPanel
     public void addFileTab(File file)
     {
         //check if the file tab is already open
+
         if (containsTab(file.getName()))
         {
             int index = tabbedPane.indexOfComponent(openTabs.get(file.getName()));
@@ -84,7 +85,7 @@ public class MainContentPanel extends JPanel
         filePanel.add(recipeTabs.getTabbedPane());
 
         //add close button functionality to the tab
-        CloseButton closeButton = new CloseButton(tabbedPane, filePanel, this);
+        CloseButton closeButton = new CloseButton(tabbedPane, filePanel, this, file.getName());
 
         //create a panel to hold the close button and the file name label
         JPanel tabTitlePanel = new JPanel(new BorderLayout());

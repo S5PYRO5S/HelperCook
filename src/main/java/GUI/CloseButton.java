@@ -2,20 +2,20 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class CloseButton extends JButton
 {
-    private JTabbedPane tabbedPane;
-    private JPanel tabPanel;
-    private MainContentPanel mainContentPanel;
+    private final JTabbedPane tabbedPane;
+    private final JPanel tabPanel;
+    private final MainContentPanel mainContentPanel;
+    private final String tabTitle;
 
-    public CloseButton(final JTabbedPane tabbedPane, final JPanel tabPanel, MainContentPanel mainContentPanel)
+    public CloseButton(final JTabbedPane tabbedPane, final JPanel tabPanel, MainContentPanel mainContentPanel, String tabTitle)
     {
         this.tabbedPane = tabbedPane;
         this.tabPanel = tabPanel;
         this.mainContentPanel = mainContentPanel;
+        this.tabTitle = tabTitle;
 
         setIcon(Utils.getImageIcon("icons/close_tab_icon.png"));
         setContentAreaFilled(false);
@@ -31,6 +31,6 @@ public class CloseButton extends JButton
         int index = tabbedPane.indexOfComponent(tabPanel);
         if (index != -1) tabbedPane.removeTabAt(index);
         //remove the tab from the openTabs map (if exists)
-        if (mainContentPanel != null) mainContentPanel.removeTab("Settings");
+        if (mainContentPanel != null) mainContentPanel.removeTab(tabTitle);
     }
 }

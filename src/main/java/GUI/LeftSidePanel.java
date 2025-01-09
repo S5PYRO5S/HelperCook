@@ -3,17 +3,17 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 
-public class LeftSidePanel
+public class LeftSidePanel extends JPanel
 {
-    private final JPanel panel;
+    //private final JPanel panel;
     private final MainFrame mainFrame;
     private int splitPaneLocationBeforeClose;
 
     public LeftSidePanel(MainFrame mainFrame, JSplitPane splitPane)
     {
         this.mainFrame = mainFrame;
-        panel = new JPanel();
-        panel.setLayout(new BorderLayout());
+        //panel = new JPanel();
+        setLayout(new BorderLayout());
         splitPaneLocationBeforeClose = GUIConstants.DEFAULT_DIVIDER_LOCATION;
 
         // Sidebar toggle button
@@ -23,8 +23,8 @@ public class LeftSidePanel
         JButton settingButton = initSettingButton("icons/settings_icon.png");
 
         // Add buttons to panel
-        panel.add(folderToggleButton, BorderLayout.NORTH);
-        panel.add(settingButton, BorderLayout.SOUTH);
+        add(folderToggleButton, BorderLayout.NORTH);
+        add(settingButton, BorderLayout.SOUTH);
     }
 
     //button creation method
@@ -61,8 +61,8 @@ public class LeftSidePanel
             splitPane.setDividerLocation(splitPaneLocationBeforeClose);
         }
         //refresh panel
-        panel.revalidate();
-        panel.repaint();
+        revalidate();
+        repaint();
     }
 
     //action
@@ -75,6 +75,6 @@ public class LeftSidePanel
 
     public JPanel getPanel()
     {
-        return panel;
+        return this;
     }
 }
