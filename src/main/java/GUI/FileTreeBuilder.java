@@ -15,12 +15,12 @@ public class FileTreeBuilder
     public TreeModel createFileTreeModel(File rootFile)
     {
         this.rootDirectory = rootFile;
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(rootFile.getName());
+        DefaultMutableTreeNode rootNode = new FileNode(rootFile);
         addFileNodes(rootNode, rootFile);
         return new DefaultTreeModel(rootNode);
     }
 
-    public void addFileNodes(DefaultMutableTreeNode parentNode, File file)
+    private void addFileNodes(DefaultMutableTreeNode parentNode, File file)
     {
         if (file.isDirectory())
         {
@@ -33,10 +33,9 @@ public class FileTreeBuilder
                 {
                     if (child.isDirectory())
                     {
-                        DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child);
+                        DefaultMutableTreeNode childNode = new FileNode(child);
                         addFileNodes(childNode, child);
 
-                        //add the directory only if it contains .cook files or valid subdirectories
                         if (childNode.getChildCount() > 0)
                         {
                             parentNode.add(childNode);
@@ -45,31 +44,36 @@ public class FileTreeBuilder
                     }
                     else if (child.isFile() && child.getName().endsWith(".cook"))
                     {
-                        DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(child);
+                        DefaultMutableTreeNode childNode = new FileNode(child);
                         parentNode.add(childNode);
                         hasCookFiles = true;
                     }
                 }
-
-                //remove the parent directory if it doesn't contain any .cook files
-                if (!hasCookFiles && parentNode.getParent() != null)
-                {
-                    parentNode.removeFromParent();
-                }
+                if (!hasCookFiles && parentNode.getParent() != null) parentNode.removeFromParent();
             }
         }
         else if (file.isFile() && file.getName().endsWith(".cook"))
         {
-            DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(file.getName());
+            DefaultMutableTreeNode childNode = new FileNode(file);
             parentNode.add(childNode);
         }
     }
 
+    public File getRootDirectory() {return rootDirectory;}
 
-
-    public File getRootDirectory()
+    //inner class that represents a file
+    static class FileNode extends DefaultMutableTreeNode
     {
-        return rootDirectory;
-    }
+        private final File file;
 
+        public FileNode(File file)
+        {
+            super(file);
+            this.file = file;
+        }
+
+        @Override
+        public String toString() {return file.getName();}
+        public File getFile() {return file;}
+    }
 }

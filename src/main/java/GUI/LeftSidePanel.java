@@ -7,12 +7,14 @@ public class LeftSidePanel
 {
     private final JPanel panel;
     private final MainFrame mainFrame;
+    private int splitPaneLocationBeforeClose;
 
     public LeftSidePanel(MainFrame mainFrame, JSplitPane splitPane)
     {
         this.mainFrame = mainFrame;
         panel = new JPanel();
         panel.setLayout(new BorderLayout());
+        splitPaneLocationBeforeClose = GUIConstants.DEFAULT_DIVIDER_LOCATION;
 
         // Sidebar toggle button
         JButton folderToggleButton = initToggleButton(splitPane, "icons/folder_icon.png");
@@ -43,17 +45,22 @@ public class LeftSidePanel
     //action
     private void toggleSidebar(JSplitPane splitPane)
     {
-        if (splitPane.getLeftComponent().isVisible())
+        boolean isSidebarVisible = splitPane.getLeftComponent().isVisible();
+        if (isSidebarVisible)
         {
-            splitPane.getLeftComponent().setVisible(false);
-            splitPane.setDividerSize(GUIConstants.DIVIDER_SIZE_HIDDEN); // Hide the divider
+            //save current divider location if not hidden
+            if(splitPane.getDividerLocation() != 0){splitPaneLocationBeforeClose = splitPane.getDividerLocation();}
+            splitPane.getLeftComponent().setVisible(false);             //hide sidebar
+            splitPane.setDividerSize(GUIConstants.DIVIDER_SIZE_HIDDEN); //hide divider
         }
         else
         {
+            //show sidebar and restore divider location
             splitPane.getLeftComponent().setVisible(true);
             splitPane.setDividerSize(GUIConstants.DIVIDER_SIZE_VISIBLE); // Restore the divider size
-            splitPane.setDividerLocation(GUIConstants.DEFAULT_DIVIDER_LOCATION);
+            splitPane.setDividerLocation(splitPaneLocationBeforeClose);
         }
+        //refresh panel
         panel.revalidate();
         panel.repaint();
     }

@@ -1,7 +1,6 @@
 package GUI;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import java.awt.*;
@@ -10,9 +9,8 @@ import java.io.File;
 /**
  * class to display the tree
  */
-public class TreePanel
+public class TreePanel extends JPanel
 {
-    private final JPanel panel;
     private final JTree fileTree;
     private final FileTreeBuilder fileTreeBuilder;
     private final MainFrame mainFrame;
@@ -20,88 +18,51 @@ public class TreePanel
     public TreePanel(MainFrame mainFrame)
     {
         this.mainFrame = mainFrame;
-        panel = new JPanel(new BorderLayout());
-        fileTree = new JTree();
-        fileTree.setModel(null);
-        fileTreeBuilder = new FileTreeBuilder();
-        JScrollPane treeScrollPane = new JScrollPane(fileTree);
+        setLayout(new BorderLayout());
 
-        JButton selectFolderButton = new JButton("Open Folder");
+        fileTree = new JTree();
+        fileTree.setModel(null);//default if a file isn't selected
+
+        fileTreeBuilder = new FileTreeBuilder();//helper class that make the tree file tree from a chosen filenode
+        JScrollPane treeScrollPane = new JScrollPane(fileTree);//stores the tree
+
+        JButton selectFolderButton = new JButton("Open Folder"); //button to open file chooser
         selectFolderButton.addActionListener(e -> openFileChooser());
 
-        fileTree.addTreeSelectionListener(e -> onFileSelect());
+        fileTree.addTreeSelectionListener(e -> onFileSelect()); //if a file is selected
 
-        panel.add(treeScrollPane, BorderLayout.CENTER);
-        panel.add(selectFolderButton, BorderLayout.SOUTH);
+        //add scrollpane and button to panel
+        add(treeScrollPane, BorderLayout.CENTER);
+        add(selectFolderButton, BorderLayout.SOUTH);
     }
 
-    public JPanel getPanel() {return panel;}
+    public JPanel getPanel() {return this;}
 
-//    private void onFileSelect()
-//    {
-//        //get selected file node
-//        TreePath selectedPath = fileTree.getSelectionPath();
-//        if (selectedPath != null)
-//        {
-//            Object selectedNode = selectedPath.getLastPathComponent();
-//            if (selectedNode instanceof DefaultMutableTreeNode node)
-//            {
-//                if (node.getUserObject() instanceof String fileName)
-//                {
-//                    File file = new File(fileName);
-//                    mainFrame.getMainContentPanel().addFileTab(file);  //add a new tab with the file
-//                }
-//            }
-//        }
-//    }
-
-//    private void onFileSelect()
-//    {
-//        // Get the selected tree path
-//        TreePath selectedPath = fileTree.getSelectionPath();
-//        if (selectedPath != null)
-//        {
-//            Object selectedNode = selectedPath.getLastPathComponent();
-//            if (selectedNode instanceof DefaultMutableTreeNode)
-//            {
-//                DefaultMutableTreeNode node = (DefaultMutableTreeNode) selectedNode;
-//                if (node.getUserObject() instanceof String)
-//                {
-//                    String fileName = (String) node.getUserObject();
-//                    File file = new File(fileTreeBuilder.getRootDirectory(), fileName); // Get full file path
-//
-//                    if (file.isFile())
-//                    {
-//                        // Add a new tab only if it's a file
-//                        mainFrame.getMainContentPanel().addFileTab(file);
-//                    }
-//                }
-//            }
-//        }
-//    }
-    private void onFileSelect() {
+    //listener for file selection
+    private void onFileSelect()
+    {
         TreePath selectedPath = fileTree.getSelectionPath();
-        if (selectedPath != null) {
+        if (selectedPath != null)
+        {
             Object selectedNode = selectedPath.getLastPathComponent();
-            if (selectedNode instanceof DefaultMutableTreeNode) {
-                DefaultMutableTreeNode node = (DefaultMutableTreeNode) selectedNode;
-                Object userObject = node.getUserObject();
-                if (userObject instanceof File) {
-                    File selectedFile = (File) userObject;
-                    if (selectedFile.isFile()) {
-                        // Add a new tab only if the selected node is a file
-                        mainFrame.getMainContentPanel().addFileTab(selectedFile);
-                    }
+            if (selectedNode instanceof FileTreeBuilder.FileNode)
+            {
+                FileTreeBuilder.FileNode node = (FileTreeBuilder.FileNode) selectedNode;
+                File selectedFile = node.getFile();
+                if (selectedFile.isFile())
+                {
+                    //open the file tab (ensure it is selected)
+                    mainFrame.getMainContentPanel().addFileTab(selectedFile);
                 }
             }
         }
     }
-
+    //listener for button
     private void openFileChooser()
     {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        int returnValue = fileChooser.showOpenDialog(panel);
+        int returnValue = fileChooser.showOpenDialog(this);
 
         if (returnValue == JFileChooser.APPROVE_OPTION)
         {
