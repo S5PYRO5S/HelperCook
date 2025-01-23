@@ -2,68 +2,58 @@ package GUI;
 
 
 import org.helperCook.Recipe;
-import org.helperCook.RecipeLoader;
 import org.helperCook.Step;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
-
 
 
 public class RecipeStepsGUI {
 
     private int currentStep = 0;
-    private JTextArea textArea;
-    private List<Recipe> recipes;
     private List<Step> steps;
+    private JTextArea textArea;
+    private JPanel buttonPanel;
+    private JSplitPane buttonNCountNTextPane;
+    private JSplitPane buttonNCountPane;
+    private final Recipe recipe;
 
-    private MainFrame frame;
 
-    public RecipeStepsGUI(List<File> files) {
-        makeRecipes(files);
+    public RecipeStepsGUI(Recipe recipe) {
+        this.recipe = recipe;
+        makeStepsPanel();
+
     }
 
-    private void makeRecipes(List<File> files) {
-        RecipeLoader recipeLoader = new RecipeLoader();
-        try {
-            recipes = recipeLoader.loadRecipes(files);
-        } catch (IOException e) {
-            System.err.println("Unexpected Error:" + e.getMessage());
-        }
-    }
+    private void makeStepsPanel() {
 
-    public void startGUI() {
-        // Create the frame
-        frame= new MainFrame();
 
         // Create buttons
-        JButton prevButton = createButton("Prev Step", "Press this button to show the previous step");
-        JButton timerButton = createButton("Start Timer", "Press this button to start the timer");
-        JButton nextButton = createButton("Next Step", "Press this button to show the next step");
+        JButton prevButton = new JButton("Previous Step");
+        prevButton.setToolTipText("Go to the previous step");
+        JButton timerButton = new JButton("Start Timer");
+        timerButton.setToolTipText("Start the timer for the current step");
+        JButton nextButton = new JButton("Next Step");
+        nextButton.setToolTipText("Go to the next step");
+        JCheckBox checkBox = new JCheckBox("Mark as done");
 
         // Add buttons to Panel
-        JPanel buttonPanel = new JPanel();
+        buttonPanel = new JPanel();
 
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(prevButton);
         buttonPanel.add(timerButton);
         buttonPanel.add(nextButton);
-        buttonPanel.setBackground(Color.DARK_GRAY);
+        buttonPanel.add(checkBox);
 
         // Initially update button states based on the step
-        updateButtonState(prevButton, nextButton, timerButton);
+        updateButtonState(prevButton, nextButton, timerButton, checkBox);
 
         // Initialize the step label
-        steps = recipes.getFirst().getSteps();
+        steps = recipe.getSteps();
         textArea = new JTextArea("Step " + (currentStep + 1) + ".\n" + steps.get(currentStep).getInstruction());
         textArea.setEditable(false);
-        textArea.setBackground(Color.DARK_GRAY);
-        textArea.setForeground(Color.WHITE);
-
-        textArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 
         JPanel textPanel = new JPanel();
@@ -72,72 +62,63 @@ public class RecipeStepsGUI {
         textArea.setWrapStyleWord(true);
         textArea.setFont(new Font("Dialog", Font.PLAIN, 15));
         textPanel.add(new JScrollPane(textArea));
-        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, textPanel, buttonPanel);
-        splitPane.setResizeWeight(1);
-        splitPane.setDividerSize(0);  // not clickable divider
-        splitPane.setMinimumSize(new Dimension(500, 375));
-        frame.setMinimumSize(new Dimension(500, 375));
-        frame.addComp(splitPane);
+
+        JPanel countdownPanel = new JPanel();
+        buttonNCountPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, buttonPanel, countdownPanel);
+        countdownPanel.setVisible(false);
+        buttonNCountPane.setDividerSize(0);  // not clickable divider
+        buttonNCountPane.setResizeWeight(0.1);
+        buttonNCountNTextPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, textPanel, buttonNCountPane);
+        buttonNCountNTextPane.setResizeWeight(1);
+        buttonNCountNTextPane.setDividerLocation(0.9);
+        buttonNCountNTextPane.setDividerSize(0);  // not clickable divider
+
+
 
         // Action for Start button
         timerButton.addActionListener(e -> {
             timerButton.setEnabled(false); // Disable the start button after it's clicked
-            // visible cue that the button cannot be pressed
-            updateTimerButtonState(timerButton, true);
-            StepCountdown stepCountdown = new StepCountdown();
-            stepCountdown.startCountdown(steps.get(currentStep), currentStep, splitPane, timerButton, this);
+            // visible cue that the button cannot be pressed again
+//          StepCountdown stepCountdown = new StepCountdown();
+//          stepCountdown.startCountdown(steps.get(currentStep), currentStep, buttonNTextPane, timerButton, this);
+            SwingUtilities.invokeLater(() -> {
+                countdownPanel.setVisible(true);
+            });
         });
+
 
         // Action for Prev button
         prevButton.addActionListener(e -> {
+            countdownPanel.setVisible(false);
             currentStep--; // Decrement step
             updateStepLabel();
-            updateButtonState(prevButton, nextButton, timerButton);
+            updateButtonState(prevButton, nextButton, timerButton, checkBox);
         });
 
         // Action for Next button
         nextButton.addActionListener(e -> {
+            countdownPanel.setVisible(false);
             currentStep++; // Increment step
             updateStepLabel();
-            updateButtonState(prevButton, nextButton, timerButton);
+            updateButtonState(prevButton, nextButton, timerButton, checkBox);
+            checkBox.setSelected(false); // Uncheck the checkbox
         });
+        // Action for checkbox
+        checkBox.addActionListener(e -> updateButtonState(prevButton, nextButton, timerButton, checkBox));
 
     }
 
     // Method to enable/disable buttons based on the current step
-    private void updateButtonState(JButton prevButton, JButton nextButton, JButton timerButton) {
+    private void updateButtonState(JButton prevButton, JButton nextButton, JButton timerButton, JCheckBox checkBox) {
         // Use SwingUtilities to ensure UI updates happen on the EDT (Event Dispatch Thread)
         SwingUtilities.invokeLater(() -> {
-            updateTimerButtonState(timerButton,steps.get(currentStep).getDuration() == null);
-            updateStepButtonState(prevButton, currentStep ==0);
-            updateStepButtonState(nextButton, currentStep == steps.size() - 1);
+            timerButton.setEnabled(steps.get(currentStep).getDuration() != null);
+            prevButton.setEnabled(currentStep != 0);
+            // Enable the next button only if the checkbox is checked and the current step is not the last step
+            nextButton.setEnabled((checkBox.isSelected() && currentStep != steps.size() - 1));
         });
     }
-    // step buttons
-    private void updateStepButtonState(JButton stepButton, boolean isDisabled) {
-        if (isDisabled) {
 
-            stepButton.setBackground(new Color(0xd3d3d3));
-            stepButton.setForeground(new Color(0x8a8a8a));
-            stepButton.setEnabled(false);
-        } else {
-            stepButton.setBackground(new Color(0xF5F5DC));
-            stepButton.setForeground(new Color(0x333333));
-            stepButton.setEnabled(true);
-        }
-    }
-    // timer button
-    private void updateTimerButtonState(JButton timerButton, boolean isDisabled) {
-        if (isDisabled) { // if the current step doesn't have duration disable the button
-            timerButton.setBackground(new Color(0xe0e0e0));
-            timerButton.setForeground(new Color(0x333333));
-            timerButton.setEnabled(false);
-        } else {
-            timerButton.setEnabled(true);
-            timerButton.setBackground(new Color(0xff7f50));
-            timerButton.setForeground(new Color(0x333333));
-        }
-    }
 
     // Method to update the step label
     private void updateStepLabel() {
@@ -145,41 +126,9 @@ public class RecipeStepsGUI {
         SwingUtilities.invokeLater(() -> textArea.setText("Step " + (currentStep + 1) + ".\n" + steps.get(currentStep).getInstruction()));
     }
 
-    private JButton createButton(String label, String toolTip) {
-        JButton button = new JButton(label);
-        button.setFont(new Font("Dialog", Font.BOLD, 12));
-        button.setFocusPainted(false);
-        button.setFocusable(false);
-        button.setBorderPainted(false);
-        button.setContentAreaFilled(true);
-        button.setToolTipText(toolTip);
-        button.setOpaque(true);
-        button.setPreferredSize(new Dimension(100, 27));
-        return button;
-    }
 
-
-    private static class MainFrame extends JFrame {
-        public MainFrame() {
-            this.setTitle("Helper Cook");
-            this.setSize(800, 600);
-            this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            this.setLocationRelativeTo(null);
-            this.setVisible(true);
-        }
-
-        private void addComp(Component component) {
-            super.add(component);
-            this.revalidate();
-            this.repaint();
-        }
-        private JFrame getMainFrame() {
-            return this;
-        }
-
-    }
-    JFrame getMainFrame() {
-        return this.frame;
+    public JSplitPane getSplitPane() {
+        return buttonNCountNTextPane;
     }
 
 

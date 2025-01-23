@@ -17,6 +17,7 @@ public class StepCountdown {
     int totalSeconds;
     CountdownImpl countdown; // The Countdown from the library
     long lastUpdatedTime = -1; // Variable to store the last updated time
+    JSplitPane finalWindow;
 
     public void startCountdown(Step step, int stepNumber, JSplitPane panel, JButton timerButton, RecipeStepsGUI recipeStepsGui) {
 
@@ -31,8 +32,6 @@ public class StepCountdown {
                 SwingUtilities.invokeLater(() -> {
                     // Enable the timer button after countdown finishes
                     timerButton.setEnabled(true);
-                    timerButton.setBackground(new Color(0xff7f50));
-                    timerButton.setForeground(new Color(0x333333));
                     System.out.println("Countdown finished, dialog disposed"); //TODO debug remove
 
 
@@ -51,7 +50,6 @@ public class StepCountdown {
         secondsLabel.setHorizontalAlignment(SwingConstants.CENTER);
         secondsLabel.setVerticalAlignment(SwingConstants.CENTER);
         secondsLabel.setFont(new Font("Arial", Font.PLAIN, 20));
-        secondsLabel.setBackground(Color.BLACK);
 
         JButton stopButton = new JButton("Stop");
         stopButton.addActionListener(e -> {
@@ -62,23 +60,16 @@ public class StepCountdown {
         JProgressBar progressBar = new JProgressBar(0, totalSeconds);
         progressBar.setValue(0); // Start at the max value
         progressBar.setStringPainted(true); // Show percentage
-        progressBar.setBackground(new Color(0x282D34));
-        progressBar.setForeground(new Color(0x2D3F4B));
 
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, secondsLabel, progressBar);
         splitPane.setDividerSize(0);
         splitPane.setResizeWeight(0.5);
-        JSplitPane finalWindow = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,splitPane, panel );
+        finalWindow = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,splitPane, panel );
         finalWindow.setDividerSize(0);
         finalWindow.setResizeWeight(0.5);
         finalWindow.setDividerLocation(100);
-        finalWindow.setBackground(Color.BLACK);
-        finalWindow.setForeground(new Color(0x282D34));
         finalWindow.setVisible(true);
-        recipeStepsGui.getMainFrame().add(finalWindow);
-        recipeStepsGui.getMainFrame().setVisible(true);
-
 
         // Start the countdown (it already manages the Timer internally)
         countdown.start();
@@ -104,5 +95,8 @@ public class StepCountdown {
         long minutes = seconds / 60;
         long remainingSeconds = seconds % 60;
         return String.format("%02d:%02d:%02d", hours, minutes, remainingSeconds);
+    }
+    public JSplitPane getFinalWindow(){
+        return finalWindow;
     }
 }

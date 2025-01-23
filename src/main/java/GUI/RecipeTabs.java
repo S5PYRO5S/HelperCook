@@ -11,7 +11,7 @@ import java.util.List;
 
 public class RecipeTabs {
     JTabbedPane tabbedPane = new JTabbedPane();
-    JPanel stepsPanel= new JPanel();
+    JSplitPane stepsPanel= new JSplitPane();
     JScrollPane recipeScrollPanel = new JScrollPane();
     JPanel shoppingListPanel= new JPanel();
     Recipe recipe;
@@ -23,6 +23,7 @@ public class RecipeTabs {
         SwingUtilities.invokeLater(() -> {
             setShoppingListPanel();
             setRecipeScrollPanel(recipe);
+            setStepsPanel();
             createTabs();
         });
     }
@@ -73,8 +74,14 @@ public class RecipeTabs {
             shoppingListPanel.add(ingredientCheckBox);
         }
     }
+    public void setStepsPanel(){
+        RecipeStepsGUI recipeStepsGUI = new RecipeStepsGUI(recipe);
+        stepsPanel = recipeStepsGUI.getSplitPane();
+    }
+
 
     public JTabbedPane getTabbedPane() {
         return tabbedPane;
     }
+
 }
