@@ -9,14 +9,13 @@ public class HomePanel extends JPanel {
 
     public HomePanel(MainContentPanel mainContentPanel) {
         setName("Home");
-        JLabel servingsLabel = new JLabel("Specify number of servings:");
 
-        JTextField textField = new JTextField(6);
-        JButton submitButton = new JButton("Submit");
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
         // Add the label centered
+        JLabel servingsLabel = new JLabel("Specify number of servings:");
+        servingsLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 3; // span across 3 columns (if you want to center the label across the full width)
@@ -24,6 +23,8 @@ public class HomePanel extends JPanel {
         add(servingsLabel, gbc);
 
         // Add the text field on the left
+        JTextField textField = new JTextField(10);
+        textField.setPreferredSize(new Dimension(100, 30));
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 1; // Take only 1 column
@@ -31,11 +32,23 @@ public class HomePanel extends JPanel {
         add(textField, gbc);
 
         // Add the submit button on the right
+        JButton submitButton = new JButton("Submit");
+        submitButton.setPreferredSize(new Dimension(100, 30));
         gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.gridwidth = 1; // Take only 1 column
         gbc.anchor = GridBagConstraints.EAST;
         add(submitButton, gbc);
+
+        // Add a label for displaying current amount of servings
+        JLabel currentServingsLabel = new JLabel("Current servings: " + servings);
+        currentServingsLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 3;
+        gbc.anchor = GridBagConstraints.CENTER;
+        add(currentServingsLabel, gbc);
+
 
         // Add an ActionListener for validation
         submitButton.addActionListener(e -> {
@@ -46,6 +59,7 @@ public class HomePanel extends JPanel {
                     JOptionPane.showMessageDialog(this, "Please enter a positive number.");
                 } else {
                     JOptionPane.showMessageDialog(this, "You selected " + servings + " servings.");
+                    currentServingsLabel.setText("Current servings: " + servings);
                     mainContentPanel.changeRecipesFactor(servings);
                 }
             } catch (NumberFormatException ex) {

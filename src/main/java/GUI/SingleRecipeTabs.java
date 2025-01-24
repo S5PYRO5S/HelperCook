@@ -95,8 +95,8 @@ public class SingleRecipeTabs extends JTabbedPane {
     }
 
     private void setStepsPanel() {
-        RecipeStepsGUI recipeStepsGUI = new RecipeStepsGUI(recipe);
-        JSplitPane newStepsPanel = recipeStepsGUI.getSplitPane();
+
+        JSplitPane newStepsPanel = new RecipeStepsGUI(recipe);
 
         //update the steps panel (when changing the factor)
         // Find the index of the "Steps" tab
