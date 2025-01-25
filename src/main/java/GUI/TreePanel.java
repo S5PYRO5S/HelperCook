@@ -1,14 +1,10 @@
 package GUI;
 
 import javax.swing.*;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
+import javax.swing.tree.*;
 import java.awt.*;
 import java.io.File;
 
-/**
- * class to display the tree
- */
 public class TreePanel extends JPanel
 {
     private final JTree fileTree;
@@ -17,28 +13,39 @@ public class TreePanel extends JPanel
 
     public TreePanel(MainFrame mainFrame)
     {
+        this(mainFrame, null);
+    }
+
+    public TreePanel(MainFrame mainFrame, java.util.List<File> files)
+    {
         this.mainFrame = mainFrame;
         setLayout(new BorderLayout());
 
         fileTree = new JTree();
-        fileTree.setModel(null);//default if a file isn't selected
+        fileTreeBuilder = new FileTreeBuilder(); //helper class to build the tree
+        JScrollPane treeScrollPane = new JScrollPane(fileTree); //scrollable tree
 
-        fileTreeBuilder = new FileTreeBuilder();//helper class that make the tree file tree from a chosen filenode
-        JScrollPane treeScrollPane = new JScrollPane(fileTree);//stores the tree
+        //if files are provided, create the virtual file tree
+        if (files != null && !files.isEmpty())
+        {
+            TreeModel treeModel = fileTreeBuilder.createVirtualFileTreeModel(files);
+            fileTree.setModel(treeModel);
+        }
 
-        JButton selectFolderButton = new JButton("Open Folder"); //button to open file chooser
-        selectFolderButton.addActionListener(e -> openFileChooser());
+        JButton selectFolderButton = new JButton("Open Folder"); //folder select button
+        selectFolderButton.addActionListener(e -> openFileChooser()); //folder select button listener
 
-        fileTree.addTreeSelectionListener(e -> onFileSelect()); //if a file is selected
+        fileTree.addTreeSelectionListener(e -> onFileSelect());
 
-        //add scrollpane and button to panel
         add(treeScrollPane, BorderLayout.CENTER);
         add(selectFolderButton, BorderLayout.SOUTH);
     }
 
-    public JPanel getPanel() {return this;}
+    public JPanel getPanel()
+    {
+        return this;
+    }
 
-    //listener for file selection
     private void onFileSelect()
     {
         TreePath selectedPath = fileTree.getSelectionPath();
@@ -51,13 +58,12 @@ public class TreePanel extends JPanel
                 File selectedFile = node.getFile();
                 if (selectedFile.isFile())
                 {
-                    //open the file tab (ensure it is selected)
                     mainFrame.getMainContentPanel().addFileTab(selectedFile);
                 }
             }
         }
     }
-    //listener for button
+
     private void openFileChooser()
     {
         JFileChooser fileChooser = new JFileChooser();

@@ -4,11 +4,14 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
 
 /**
  * Util class for TreePanel (creates the tree panel)
  */
-public class FileTreeBuilder
+class FileTreeBuilder
 {
     private File rootDirectory;
 
@@ -59,21 +62,43 @@ public class FileTreeBuilder
         }
     }
 
-    public File getRootDirectory() {return rootDirectory;}
+    /**
+     * method to return a virtual tree based on a give list of files
+     * @param files the list of files
+     * @return the tree
+     */
+    public TreeModel createVirtualFileTreeModel(List<File> files)
+    {
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Recipes");
+        Map<String, DefaultMutableTreeNode> folderNodes = new HashMap<>();
 
-    //inner class that represents a file
+        for (File file : files)
+        {
+            if (file.isFile() && file.getName().endsWith(".cook"))
+            {
+                String folderName = file.getParentFile().getName();
+                DefaultMutableTreeNode folderNode = folderNodes.computeIfAbsent(folderName, k -> new DefaultMutableTreeNode(k));
+                folderNode.add(new FileNode(file));
+            }
+        }
+
+        folderNodes.values().forEach(rootNode::add);
+        return new DefaultTreeModel(rootNode);
+    }
+
     static class FileNode extends DefaultMutableTreeNode
     {
         private final File file;
 
         public FileNode(File file)
         {
-            super(file);
+            super(file.getName());
             this.file = file;
         }
 
-        @Override
-        public String toString() {return file.getName();}
-        public File getFile() {return file;}
+        public File getFile()
+        {
+            return file;
+        }
     }
 }
