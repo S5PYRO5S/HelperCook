@@ -11,6 +11,7 @@ public class MainContentPanel extends JPanel
     private final JTabbedPane tabbedPane;
     private final Map<String, JPanel> openTabs;
 
+
     public MainContentPanel()
     {
         setLayout(new BorderLayout());
@@ -18,10 +19,9 @@ public class MainContentPanel extends JPanel
         openTabs = new HashMap<>();
 
         //Home tab
-        JPanel homePanel = new HomePanel();
+        JPanel homePanel = new HomePanel(this);
         //add home panel to tabbedPane
         tabbedPane.addTab("Home", homePanel);
-
         //add tabbedPane to the main panel
         add(tabbedPane, BorderLayout.CENTER);
     }
@@ -29,7 +29,6 @@ public class MainContentPanel extends JPanel
     private JPanel createTabWithCloseButton(JPanel contentPanel, String tabTitle)
     {
         CloseButton closeButton = new CloseButton(tabbedPane, contentPanel, this, tabTitle);
-
         JPanel tabTitlePanel = new JPanel(new BorderLayout());
         tabTitlePanel.add(new JLabel(tabTitle), BorderLayout.CENTER);
         tabTitlePanel.add(closeButton, BorderLayout.EAST);
@@ -81,8 +80,9 @@ public class MainContentPanel extends JPanel
 
         //create the content panel for the file tab
         JPanel filePanel = new JPanel(new BorderLayout());
-        RecipeTabs recipeTabs = new RecipeTabs(file);
-        filePanel.add(recipeTabs.getTabbedPane());
+        SingleRecipeTabs singleRecipeTabs = new SingleRecipeTabs(file, HomePanel.getServings());
+        filePanel.add(singleRecipeTabs);
+
 
         //add close button functionality to the tab
         CloseButton closeButton = new CloseButton(tabbedPane, filePanel, this, file.getName());
@@ -121,5 +121,14 @@ public class MainContentPanel extends JPanel
     public JPanel getPanel()
     {
         return this;
+    }
+
+    public void changeRecipesFactor(int factor){
+        for (String key : openTabs.keySet()) {
+            SingleRecipeTabs singleRecipeTabs = (SingleRecipeTabs) openTabs.get(key).getComponent(0);
+            singleRecipeTabs.changeFactor(factor);
+        }
+        repaint();
+        revalidate();
     }
 }
