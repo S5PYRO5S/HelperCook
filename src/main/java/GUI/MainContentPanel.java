@@ -6,24 +6,27 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Manages the main content area
+ */
 public class MainContentPanel extends JPanel
 {
     private final JTabbedPane tabbedPane;
     private final Map<String, JPanel> openTabs;
 
-
+    /**
+     * Constructor
+     * Initializes the tabbed pane and sets up the Home tab
+     */
     public MainContentPanel()
     {
         setLayout(new BorderLayout());
         tabbedPane = new JTabbedPane();
         openTabs = new HashMap<>();
 
-        //Home tab
-        JPanel homePanel = new HomePanel(this);
-        //add home panel to tabbedPane
-        tabbedPane.addTab("Home", homePanel);
-        //add tabbedPane to the main panel
-        add(tabbedPane, BorderLayout.CENTER);
+        JPanel homePanel = new HomePanel(this);  //Home tab
+        tabbedPane.addTab("Home", homePanel);              //add home panel to tabbedPane
+        add(tabbedPane, BorderLayout.CENTER);                   //add tabbedPane to the main panel
     }
 
     private JPanel createTabWithCloseButton(JPanel contentPanel, String tabTitle)
@@ -35,38 +38,11 @@ public class MainContentPanel extends JPanel
         return tabTitlePanel;
     }
 
-    //method to add settings tab
-    public void addSettingsTab()
-    {
-        //if settings already open don't reopen
-        if (containsTab("Settings"))
-        {
-            int index = tabbedPane.indexOfComponent(openTabs.get("Settings"));
-            tabbedPane.setSelectedIndex(index);
-            return;
-        }
-
-        //create new SettingsPanel
-        SettingsPanel settingsPanel = new SettingsPanel();
-
-        //add the settings panel to a new tab
-        JPanel tabPanel = new JPanel(new BorderLayout());
-        tabPanel.add(settingsPanel, BorderLayout.CENTER);
-
-        //create a panel to hold the close button and the content
-        JPanel tabTitlePanel = createTabWithCloseButton(tabPanel, "Settings");
-
-        //add the tab to the tabbedPane
-        tabbedPane.addTab(null, tabPanel);
-        tabbedPane.setTabComponentAt(tabbedPane.getTabCount() - 1, tabTitlePanel);
-
-        //save the settings tab
-        openTabs.put("Settings", tabPanel);
-
-        //select the tab
-        tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);
-    }
-
+    /**
+     * Adds a new tab for the specified file, or selects the tab if it is already open
+     *
+     * @param file the file to add or open
+     */
     public void addFileTab(File file)
     {
         //check if the file tab is already open
@@ -82,7 +58,6 @@ public class MainContentPanel extends JPanel
         JPanel filePanel = new JPanel(new BorderLayout());
         SingleRecipeTabs singleRecipeTabs = new SingleRecipeTabs(file, HomePanel.getServings());
         filePanel.add(singleRecipeTabs);
-
 
         //add close button functionality to the tab
         CloseButton closeButton = new CloseButton(tabbedPane, filePanel, this, file.getName());
@@ -103,6 +78,11 @@ public class MainContentPanel extends JPanel
         tabbedPane.setSelectedIndex(tabbedPane.getTabCount() - 1);  //select the tab
     }
 
+    /**
+     * Removes a tab with the specified title
+     *
+     * @param tabTitle the title of the tab to remove
+     */
     public void removeTab(String tabTitle)
     {
         JPanel tabPanel = openTabs.remove(tabTitle);  //remove tab name from map
@@ -113,16 +93,31 @@ public class MainContentPanel extends JPanel
         }
     }
 
+    /**
+     * Helper method to check if the tab with the specified title exists
+     *
+     * @param tabTitle the title to add
+     * @return a boolean value (if it exists true, otherwise false)
+     */
     private boolean containsTab(String tabTitle)
     {
         return openTabs.containsKey(tabTitle);
     }
 
+    /**
+     * getter for this panel
+     * @return this panel
+     */
     public JPanel getPanel()
     {
         return this;
     }
 
+    /**
+     * Changes the scaling factor for recipes in all tabs
+     *
+     * @param factor the scaling factor
+     */
     public void changeRecipesFactor(int factor){
         for (String key : openTabs.keySet()) {
             SingleRecipeTabs singleRecipeTabs = (SingleRecipeTabs) openTabs.get(key).getComponent(0);

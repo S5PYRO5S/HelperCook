@@ -7,8 +7,19 @@ import java.net.URL;
 
 import static GUI.GUIConstants.*;
 
+/**
+ * Utility class with helper methods for GUI components
+ */
 public class Utils
 {
+    /**
+     * Resizes an icon
+     *
+     * @param iconURL  URL of the icon to resize
+     * @param width    target width
+     * @param height   target height
+     * @return         resized ImageIcon
+     */
     private static ImageIcon resizeIcon(URL iconURL, int width, int height)
     {
         ImageIcon icon = new ImageIcon(iconURL);
@@ -16,6 +27,12 @@ public class Utils
         return new ImageIcon(image);
     }
 
+    /**
+     * Creates a JButton with an icon.
+     *
+     * @param iconPath path to the icon
+     * @return  a JButton with the icon
+     */
     public static JButton createButton(String iconPath)
     {
         URL iconURL = Utils.class.getClassLoader().getResource(iconPath);
@@ -35,6 +52,11 @@ public class Utils
         }
     }
 
+    /**
+     * Returns a resized ImageIcon
+     * @param iconPath path to the icon.
+     * @return resized ImageIcon or null (if the icon cannot be found)
+     */
     public static ImageIcon getImageIcon(String iconPath)
     {
         URL iconURL = LeftSidePanel.class.getClassLoader().getResource(iconPath);

@@ -5,17 +5,29 @@ import javax.swing.tree.*;
 import java.awt.*;
 import java.io.File;
 
+/**
+ * JPanel that displays a file tree and allows the user
+ * to open folders and select files.
+ * It also uses the {@link FileTreeBuilder} helper class to construct the file tree from the selected folder
+ */
 public class TreePanel extends JPanel
 {
-    private final JTree fileTree;
-    private final FileTreeBuilder fileTreeBuilder;
-    private final MainFrame mainFrame;
+    private final JTree fileTree;                   //the tree
+    private final FileTreeBuilder fileTreeBuilder;  //helper class to construct the tree
+    private final MainFrame mainFrame;              //parent frame
 
+    //constructor without initial file list.
     public TreePanel(MainFrame mainFrame)
     {
         this(mainFrame, null);
     }
 
+    /**
+     * Constructor with the file list
+     *
+     * @param mainFrame the parent frame
+     * @param files     the file list
+     */
     public TreePanel(MainFrame mainFrame, java.util.List<File> files)
     {
         this.mainFrame = mainFrame;
@@ -25,12 +37,10 @@ public class TreePanel extends JPanel
         fileTreeBuilder = new FileTreeBuilder(); //helper class to build the tree
         JScrollPane treeScrollPane = new JScrollPane(fileTree); //scrollable tree
 
-        //if files are provided, create the virtual file tree
-        if (files != null && !files.isEmpty())
-        {
-            TreeModel treeModel = fileTreeBuilder.createVirtualFileTreeModel(files);
-            fileTree.setModel(treeModel);
-        }
+        //if files are provided, create the virtual file tree, else set default tree model
+        TreeModel treeModel = fileTreeBuilder.createVirtualFileTreeModel(files);
+        fileTree.setModel(treeModel);
+
 
         JButton selectFolderButton = new JButton("Open Folder"); //folder select button
         selectFolderButton.addActionListener(e -> openFileChooser()); //folder select button listener
@@ -46,6 +56,10 @@ public class TreePanel extends JPanel
         return this;
     }
 
+    /**
+     * Action listener for file selection from the tree
+     * It opens a new tab in the main content panel if a .cook file is selected
+     */
     private void onFileSelect()
     {
         TreePath selectedPath = fileTree.getSelectionPath();
@@ -64,6 +78,9 @@ public class TreePanel extends JPanel
         }
     }
 
+    /**
+     * Action listener for the folder select button
+     */
     private void openFileChooser()
     {
         JFileChooser fileChooser = new JFileChooser();

@@ -9,12 +9,19 @@ import java.util.Map;
 import java.util.List;
 
 /**
- * Util class for TreePanel (creates the tree panel)
+ * Helper class for TreePanel for creating the tree panel from the file system via {@link javax.swing.JFileChooser}
+ * or a list of files from the terminal.
+ * It can also filter to display only files with .cook file extension
  */
 class FileTreeBuilder
 {
-    private File rootDirectory;
+    private File rootDirectory;     //the root directory of the tree
 
+    /**
+     * Creates the file tree from a root
+     * @param rootFile the root
+     * @return  the TreeModel that represents the file structure
+     */
     public TreeModel createFileTreeModel(File rootFile)
     {
         this.rootDirectory = rootFile;
@@ -23,6 +30,12 @@ class FileTreeBuilder
         return new DefaultTreeModel(rootNode);
     }
 
+    /**
+     * method to add file nodes to the parent node
+     *
+     * @param parentNode the parent node
+     * @param file       the current file or directory
+     */
     private void addFileNodes(DefaultMutableTreeNode parentNode, File file)
     {
         if (file.isDirectory())
@@ -63,12 +76,16 @@ class FileTreeBuilder
     }
 
     /**
-     * method to return a virtual tree based on a give list of files
+     * method to return a virtual tree based on a give list of files or default if the list is empty
      * @param files the list of files
-     * @return the tree
+     * @return      the tree
      */
     public TreeModel createVirtualFileTreeModel(List<File> files)
     {
+        if(files == null || files.isEmpty())
+        {
+            return new DefaultTreeModel(new DefaultMutableTreeNode("No currently selected files"));
+        }
         DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Recipes");
         Map<String, DefaultMutableTreeNode> folderNodes = new HashMap<>();
 
@@ -86,6 +103,9 @@ class FileTreeBuilder
         return new DefaultTreeModel(rootNode);
     }
 
+    /**
+     * A tree node that wraps a File object
+     */
     static class FileNode extends DefaultMutableTreeNode
     {
         private final File file;
