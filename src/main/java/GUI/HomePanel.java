@@ -42,7 +42,7 @@ public class HomePanel extends JPanel {
 
         // Add a label for displaying current amount of servings
         JLabel currentServingsLabel = new JLabel("Current servings: " + servings);
-        currentServingsLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        currentServingsLabel.setFont(new Font("Arial", Font.PLAIN, 15));
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 3;
@@ -57,11 +57,18 @@ public class HomePanel extends JPanel {
                 servings = Integer.parseInt(input);
                 if (servings <= 0) {
                     JOptionPane.showMessageDialog(this, "Please enter a positive number.");
-                } else {
-                    JOptionPane.showMessageDialog(this, "You selected " + servings + " servings.");
-                    currentServingsLabel.setText("Current servings: " + servings);
-                    mainContentPanel.changeRecipesFactor(servings);
+                    return;
                 }
+
+                if (servings > 100) {
+                    JOptionPane.showMessageDialog(this, "Please enter a reasonable number of servings.");
+                    return;
+                }
+
+
+                currentServingsLabel.setText("Current servings: " + servings);
+                mainContentPanel.changeRecipesFactor(servings);
+
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Invalid input. Please enter a number.");
             }

@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class CountdownPanel extends JPanel {
     int totalSeconds;
     long lastUpdatedTime = -1; // Variable to store the last updated time
-    CountdownImpl countdown; // The Countdown from the library
+    CountdownImpl countdown; // The Countdown from the library provided
     JLabel secondsLabel;
     JProgressBar progressBar;
     JButton stopButton;
@@ -33,7 +33,6 @@ public class CountdownPanel extends JPanel {
             public void finished(Countdown countdown) {
                 // update the parent component
                 parent.countdownFinished(CountdownPanel.this);
-                System.out.println("Countdown finished, dialog disposed"); //TODO debug remove
             }
         };
         // Register the notifier with the countdown instance
@@ -51,7 +50,6 @@ public class CountdownPanel extends JPanel {
         stopButton = new JButton("Stop");
         stopButton.addActionListener(e -> {
             countdown.stop();
-            System.out.println("Countdown stopped"); //TODO debug remove
             // update the parent component
             parent.countdownFinished(this);
         });
@@ -62,12 +60,12 @@ public class CountdownPanel extends JPanel {
 
         countdown.start();
         // Use ScheduledExecutorService to update the UI every second
+        // makes sure that the UI is updated correctly every second
         ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(() -> {
             long remainingTime = countdown.secondsRemaining();
-            // Update UI only if the remaining time has changed
+            // Update UI only if the remaining time has changed ( to avoid unintended UI updates)
             if (remainingTime != lastUpdatedTime) {
-                System.out.println(countdown.secondsRemaining() + " seconds");
                 lastUpdatedTime = remainingTime;  // Store the updated time
                 SwingUtilities.invokeLater(() -> {
                     secondsLabel.setText(formatTime(remainingTime));
@@ -79,7 +77,7 @@ public class CountdownPanel extends JPanel {
         }, 0, 1, TimeUnit.SECONDS);
     }
 
-    // Helper method to format time as MM:SS
+    // Helper method to format time as HH:MM:SS
     private String formatTime(long seconds) {
         long hours = seconds / 3600;
         long minutes = seconds / 60;
