@@ -3,6 +3,9 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Button used to close tabs in the tabbed pane
+ */
 public class CloseButton extends JButton
 {
     private final JTabbedPane tabbedPane;
@@ -10,6 +13,15 @@ public class CloseButton extends JButton
     private final MainContentPanel mainContentPanel;
     private final String tabTitle;
 
+    /**
+     * Constructor
+     * Sets up the button
+     *
+     * @param tabbedPane        The JTabbedPane containing the tab
+     * @param tabPanel          The panel associated with the tab
+     * @param mainContentPanel  The MainContentPanel managing the tab
+     * @param tabTitle          The title of the tab
+     */
     public CloseButton(final JTabbedPane tabbedPane, final JPanel tabPanel, MainContentPanel mainContentPanel, String tabTitle)
     {
         this.tabbedPane = tabbedPane;
@@ -25,6 +37,9 @@ public class CloseButton extends JButton
         addActionListener(e -> closeTab());
     }
 
+    /**
+     * Action for the button
+     */
     private void closeTab()
     {
         //remove the tab from the tabbedPane

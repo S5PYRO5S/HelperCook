@@ -3,6 +3,9 @@ package GUI;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * side panel to hold additional button/s (if they are to be implemented)
+ */
 public class LeftSidePanel extends JPanel
 {
     //private final JPanel panel;
@@ -12,37 +15,21 @@ public class LeftSidePanel extends JPanel
     public LeftSidePanel(MainFrame mainFrame, JSplitPane splitPane)
     {
         this.mainFrame = mainFrame;
-        //panel = new JPanel();
         setLayout(new BorderLayout());
         splitPaneLocationBeforeClose = GUIConstants.DEFAULT_DIVIDER_LOCATION;
 
-        // Sidebar toggle button
-        JButton folderToggleButton = initToggleButton(splitPane, "icons/folder_icon.png");
-
-        // Setting button
-        JButton settingButton = initSettingButton("icons/settings_icon.png");
-
-        // Add buttons to panel
-        add(folderToggleButton, BorderLayout.NORTH);
-        add(settingButton, BorderLayout.SOUTH);
+        JButton folderToggleButton = initToggleButton(splitPane, "icons/folder_icon.png");//sidebar toggle button
+        add(folderToggleButton, BorderLayout.NORTH); //add button to panel
     }
 
-    //button creation method
+    // ===== button creation =====
     private JButton initToggleButton(JSplitPane splitPane, String iconPath)
     {
         JButton button = Utils.createButton(iconPath);
         button.addActionListener(e -> toggleSidebar(splitPane));
         return button;
     }
-    //button creation method
-    private JButton initSettingButton(String iconPath)
-    {
-        JButton button = Utils.createButton(iconPath);
-        button.addActionListener(e -> openSettings());
-        return button;
-    }
-
-    //action
+    // ===== folder button action =====
     private void toggleSidebar(JSplitPane splitPane)
     {
         boolean isSidebarVisible = splitPane.getLeftComponent().isVisible();
@@ -64,15 +51,6 @@ public class LeftSidePanel extends JPanel
         revalidate();
         repaint();
     }
-
-    //action
-    private void openSettings()
-    {
-        //add a new settings tab to the MainContentPanel
-        MainContentPanel mainContentPanel = mainFrame.getMainContentPanel();
-        mainContentPanel.addSettingsTab();
-    }
-
     public JPanel getPanel()
     {
         return this;

@@ -4,14 +4,24 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.List;
 
 /**
- * Util class for TreePanel (creates the tree panel)
+ * Helper class for TreePanel for creating the tree panel from the file system via {@link javax.swing.JFileChooser}
+ * or a list of files from the terminal.
+ * It can also filter to display only files with .cook file extension
  */
-public class FileTreeBuilder
+class FileTreeBuilder
 {
-    private File rootDirectory;
+    private File rootDirectory;     //the root directory of the tree
 
+    /**
+     * Creates the file tree from a root
+     * @param rootFile the root
+     * @return  the TreeModel that represents the file structure
+     */
     public TreeModel createFileTreeModel(File rootFile)
     {
         this.rootDirectory = rootFile;
@@ -20,6 +30,12 @@ public class FileTreeBuilder
         return new DefaultTreeModel(rootNode);
     }
 
+    /**
+     * method to add file nodes to the parent node
+     *
+     * @param parentNode the parent node
+     * @param file       the current file or directory
+     */
     private void addFileNodes(DefaultMutableTreeNode parentNode, File file)
     {
         if (file.isDirectory())
@@ -59,21 +75,50 @@ public class FileTreeBuilder
         }
     }
 
-    public File getRootDirectory() {return rootDirectory;}
+    /**
+     * method to return a virtual tree based on a give list of files or default if the list is empty
+     * @param files the list of files
+     * @return      the tree
+     */
+    public TreeModel createVirtualFileTreeModel(List<File> files)
+    {
+        if(files == null || files.isEmpty())
+        {
+            return new DefaultTreeModel(new DefaultMutableTreeNode("No currently selected files"));
+        }
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Recipes");
+        Map<String, DefaultMutableTreeNode> folderNodes = new HashMap<>();
 
-    //inner class that represents a file
+        for (File file : files)
+        {
+            if (file.isFile() && file.getName().endsWith(".cook"))
+            {
+                String folderName = file.getParentFile().getName();
+                DefaultMutableTreeNode folderNode = folderNodes.computeIfAbsent(folderName, k -> new DefaultMutableTreeNode(k));
+                folderNode.add(new FileNode(file));
+            }
+        }
+
+        folderNodes.values().forEach(rootNode::add);
+        return new DefaultTreeModel(rootNode);
+    }
+
+    /**
+     * A tree node that wraps a File object
+     */
     static class FileNode extends DefaultMutableTreeNode
     {
         private final File file;
 
         public FileNode(File file)
         {
-            super(file);
+            super(file.getName());
             this.file = file;
         }
 
-        @Override
-        public String toString() {return file.getName();}
-        public File getFile() {return file;}
+        public File getFile()
+        {
+            return file;
+        }
     }
 }

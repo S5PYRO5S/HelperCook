@@ -2,26 +2,34 @@ package GUI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.net.URL;
 
-public class MainFrame extends JFrame
+/**
+ * Represents the main application window for the GUI program
+ * It sets up the overall windows layout.
+ */
+class MainFrame extends JFrame
 {
     private final MainContentPanel mainContentPanel;
 
-    public MainFrame()
+    /**
+     * Constructor
+     * Initializes the components of the application
+     *
+     * @param files a list of files to be displayed in the TreePanel(if not null).
+     */
+    public MainFrame(java.util.List<File> files)
     {
-        //instantiate app components
         setTitle("Helper Cook");
-        TreePanel treePanel = new TreePanel(this);
+
         mainContentPanel = new MainContentPanel();
+        TreePanel treePanel = new TreePanel(this, files);
 
-        //make splitPane with treePanel and mainContentPanel
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, treePanel.getPanel(), mainContentPanel.getPanel());
-
-        //make leftSidePanel with splitPane as parameter to be able to hide and show the treePanel
         LeftSidePanel leftSidePanel = new LeftSidePanel(this, splitPane);
 
-        //load icon
+        //set app icon
         URL appIconURL = MainFrame.class.getClassLoader().getResource("icons/app_icon.png");
         if (appIconURL != null)
         {
@@ -29,26 +37,26 @@ public class MainFrame extends JFrame
             setIconImage(appIcon.getImage());
         }
 
-        // main frame options
+        //frame config
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
         setLayout(new BorderLayout());
-
-        //splitPane options
         splitPane.setDividerLocation(GUIConstants.DEFAULT_DIVIDER_LOCATION);
         splitPane.setDividerSize(GUIConstants.DIVIDER_SIZE_VISIBLE);
         splitPane.setContinuousLayout(true);
 
-        //add components to the main frame
+        //add components to frame
         add(splitPane, BorderLayout.CENTER);
         add(leftSidePanel.getPanel(), BorderLayout.WEST);
 
-        //make frame appear to the screen
         setLocationRelativeTo(null);
-
         setVisible(true);
     }
 
+    /**
+     * getter for mainContentPanel
+     * @return the instance of that panel
+     */
     public MainContentPanel getMainContentPanel()
     {
         return mainContentPanel;
