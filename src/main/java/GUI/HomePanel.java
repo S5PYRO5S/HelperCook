@@ -56,7 +56,7 @@ public class HomePanel extends JPanel {
             try {
                 servings = Integer.parseInt(input);
                 if (servings <= 0) {
-                    JOptionPane.showMessageDialog(this, "Please enter a positive number.");
+                    JOptionPane.showMessageDialog(this, "Please enter a positive integer.");
                     return;
                 }
 
@@ -65,12 +65,11 @@ public class HomePanel extends JPanel {
                     return;
                 }
 
-
-                currentServingsLabel.setText("Current servings: " + servings);
-                mainContentPanel.changeRecipesFactor(servings);
+                currentServingsLabel.setText("Current servings: " + servings); // Update the label
+                mainContentPanel.changeRecipesFactor(servings); // Update the recipes factor
 
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Invalid input. Please enter a number.");
+                JOptionPane.showMessageDialog(this, "Invalid input. Please enter an integer.");
             }
         });
     }
