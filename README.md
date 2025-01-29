@@ -45,17 +45,17 @@ commands.
 
 ### To display a single recipe, run the following command:
 
-- `java -jar target/helperCook1.0.jar <path-to-input-file> [number of servings] -t`
+- `java -jar target/helperCook2.0.jar <path-to-input-file> [number of servings] -t`
 
 
-- **Example:** `java -jar target/helperCook1.0.jar pancakes.cook 2 -t`
+- **Example:** `java -jar target/helperCook2.0.jar pancakes.cook 2 -t`
 
 ### To display shopping list, run the following:
 
-- `java -jar target/helperCook1.0.jar -list <path-to-input-file-1> <path-to-input-file-2> ... -t`
+- `java -jar target/helperCook2.0.jar -list <path-to-input-file-1> <path-to-input-file-2> ... -t`
 
 
-- **Example**: `java -jar target/helperCook1.0.jar -list pancakes.cook brownies.cook -t`
+- **Example**: `java -jar target/helperCook2.0.jar -list pancakes.cook brownies.cook -t`
 
 Shopping list ingredients quantities are the sum of the quantities of the same ingredient in all the recipes and cannot
 be adjusted for different number of servings ( for cli ).
@@ -74,7 +74,7 @@ the command**.
 ### To start the gui with pre-selected files:
 
 - `java -jar target/helperCook2.0.jar <path-to-input-file> <path-to-input-file-1> <path-to-input-file-2> ...`
-- **Example**: `java -jar target/helperCook1.0.jar -list pancakes.cook crepes.cook `
+- **Example**: `java -jar target/helperCook2.0.jar -list pancakes.cook crepes.cook `
 
 The gui does not require any special flags to be placed and to adjust the number of servings or view the shopping list
 for the recipes you can do so only through the window .
