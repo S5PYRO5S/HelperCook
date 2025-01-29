@@ -38,9 +38,7 @@ To use the app, you need to install the following dependencies:
 2. Open the terminal and navigate to the project directory (where the `pom.xml` file is located)
 3. Run the following command: `mvn package`
 
-#### The jar file will be created in the
-
-`target` directory of the project folder. After the jar file is created, you can run the app using the following
+#### The jar file will be created in the `target` directory of the project folder. After the jar file is created, you can run the app using the following
 commands.
 
 ## To use the app through the command line:
