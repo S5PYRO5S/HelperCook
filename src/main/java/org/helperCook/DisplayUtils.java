@@ -68,10 +68,14 @@ public class DisplayUtils {
     //Print Usage format
     public static void printUsage() {
         System.out.println( ANSI_YELLOW + """ 
-                        Usage:
-                            java -jar helperCook.jar <file> [integer]    # Use relative or absolute paths for files
+                        Usage for CLI:
+                            java -jar helperCook2.0.jar <file> [integer] -t   # Use relative or absolute paths for files
                             or
-                            java -jar helperCook.jar -list <file> <file> ...  # Use relative or absolute paths for files
+                            java -jar helperCook2.0.jar -list <file1> <file1> ... -t # Use relative or absolute paths for files
+                        Usage for GUI:
+                            java -jar helperCook2.0.jar
+                            or
+                            java -jar helperCook2.0.jar <file1> <file2> ...   # Use relative or absolute paths for files
                     """ + ANSI_RESET );
     }
 }

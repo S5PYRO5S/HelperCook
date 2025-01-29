@@ -25,52 +25,44 @@ public class FileReaderUtil
     }
 
     /**
-     * Takes an array of Strings and updates the ingredient values based on a factor
-     * @param instructions the array of the file instructions
-     * @param factor int value that the ingredient units are going to be multiplied
+     * method to update the quantities of an instructions given a factor
+     * @param instructions the list of instructions
+     * @param factor the factor to multiply the quantities
      */
     public static void updateInstructionQuantities(String[] instructions, int factor)
     {
         Pattern ingredientPattern = Pattern.compile(RegexConstants.INGREDIENT_REGEX);
 
-        // Process each instruction and update quantities
-        for (int i = 0; i < instructions.length; i++)
-        {
+        for (int i = 0; i < instructions.length; i++) {
             Matcher matcher = ingredientPattern.matcher(instructions[i]);
             StringBuilder updatedInstruction = new StringBuilder();
 
-            // Iterate through all matches in the instruction
-            while (matcher.find())
-            {
+            while (matcher.find()) {
                 String ingredientName = matcher.group(1);
                 String quantityStr = matcher.group(2);
                 String unitName = matcher.group(3) != null ? matcher.group(3) : "";
 
-                if (quantityStr != null)
-                {
-                    // Parse and multiply the quantity
-                    double originalQuantity = Double.parseDouble(quantityStr);
-                    double newQuantity = originalQuantity * factor;
+                //check if the quantity is missing
+                if (quantityStr == null) quantityStr = "1"; //default quantity to 1 if {} is missing
 
-                    // If there's a unit, include it in the replacement, otherwise omit it
-                    String replacement;
-                    if (unitName.isEmpty())
-                    {
-                        replacement = String.format("@%s{%d}", ingredientName, (int) newQuantity); // No unit
-                    } else {
-                        replacement = String.format("@%s{%d%%%s}", ingredientName, (int) newQuantity, unitName); // With unit
-                    }
-                    matcher.appendReplacement(updatedInstruction, replacement);
+                //parse the quantity and calculate the new value
+                double originalQuantity = Double.parseDouble(quantityStr);
+                double newQuantity = originalQuantity * factor;
+
+                //format the replacement string based on the presence of a unit
+                String replacement;
+                if (unitName.isEmpty())
+                {
+                    replacement = String.format("@%s{%d}", ingredientName, (int) newQuantity); //no unit
                 }
                 else
                 {
-                    // If no quantity is specified, keep the ingredient as is
-                    matcher.appendReplacement(updatedInstruction, matcher.group());
+                    replacement = String.format("@%s{%d%%%s}", ingredientName, (int) newQuantity, unitName); //with unit
                 }
+                matcher.appendReplacement(updatedInstruction, replacement);
             }
-
             matcher.appendTail(updatedInstruction);
-            instructions[i] = updatedInstruction.toString(); // Update the instruction in the array
+            instructions[i] = updatedInstruction.toString(); //update the instruction in the array
         }
     }
 }
