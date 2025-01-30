@@ -21,6 +21,7 @@
                 <configuration>
                     <parameters>true</parameters>
                     <showDeprecation>true</showDeprecation>
+                    <failOnWarning>fasle</failOnWarning>
                 </configuration>
             </plugin>
 
