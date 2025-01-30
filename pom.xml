@@ -9,8 +9,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <!-- Remove source and target version properties -->
     </properties>
 
     <build>
@@ -21,12 +20,12 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
+                    <release>17</release> <!-- Use release instead of source and target -->
                     <parameters>true</parameters>
                     <showDeprecation>true</showDeprecation>
-                    <failOnWarning>fasle</failOnWarning>
+                    <failOnWarning>false</failOnWarning>
                 </configuration>
             </plugin>
-
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -40,8 +39,6 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                         <source>17</source>
-                         <target>17</target>
                             <outputDirectory>${project.build.directory}/lib</outputDirectory>
                             <includeScope>runtime</includeScope>
                         </configuration>
@@ -81,4 +78,3 @@
         </repository>
     </repositories>
 </project>
-
