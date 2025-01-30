@@ -9,7 +9,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Remove source and target version properties -->
+        <maven.compiler.release>17</maven.compiler.release>
     </properties>
 
     <build>
@@ -20,7 +20,7 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <release>17</release> <!-- Use release instead of source and target -->
+                    <release>17</release> 
                     <parameters>true</parameters>
                     <showDeprecation>true</showDeprecation>
                     <failOnWarning>false</failOnWarning>
