@@ -57,8 +57,8 @@ public class Unit
     {
         switch (converter.getUnitType())
         {
-            case UnitType.MASS -> {return converter.formatIn(value, new Kilogram());}
-            case UnitType.VOLUME -> {return converter.formatIn(value, new Liter());}
+            case MASS -> {return converter.formatIn(value, new Kilogram());}
+            case VOLUME -> {return converter.formatIn(value, new Liter());}
             default -> {return converter.formatIn(value, converter);}
         }
     }
