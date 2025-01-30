@@ -19,7 +19,7 @@ public class RecipeCLI {
         //Check which mode user inputs, then run it
         switch (mode) {
             case "recipe":
-                recipe = recipeLoader.loadRecipe(files.getFirst(), factor);
+                recipe = recipeLoader.loadRecipe(files.get(0), factor);
                 recipeDisplay.displayFullRecipe(recipe);
                 break;
             case "list":
